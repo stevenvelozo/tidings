@@ -1,0 +1,24 @@
+{
+  "name": "tidings-report-prototype",
+  "version": "1.0.0",
+  "description": "Report prototype.",
+  "main": "source/Tidings.js",
+  "scripts": {
+    "start": "node source/Tidings-Report-Prototype.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stevenvelozo/tidings-report-prototype.git"
+  },
+  "keywords": [
+    "reporting"
+  ],
+  "author": "Steven Velozo <steven@velozo.com> (http://velozo.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stevenvelozo/tidings-report-prototype/issues"
+  },
+  "homepage": "https://github.com/stevenvelozo/tidings-report-prototype",
+  "devDependencies": {},
+  "dependencies": {}
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- The reporting engine uses the hash to serve common files from the report hash. -->
+    <link href="assetladen/myreport.css" rel="stylesheet" type="text/css" media="screen, projection"/>
+    <title>Asset-heavy Report for <%= Datum.Name %></title>
+  </head>
+  <body>
+	  <h1><%= Datum.Name %></h1>
+	  <p>This is not the default report.  By the way it has <%= Datum.Name.length %> bytes in the Name property.  And this report has GUID Manifest <%= Manifest.Metadata.GUIDReportDescription %>.</p>
+	  <!-- This is a "common files" image -->
+	  <img src="assetladen/Nyan.png"/>
+	  <hr/>
+
+    <h2>Thumbnails from the video in Common Files</h2>
+    <img src="thumbnail-at-15-seconds.png"/>
+    <img src="thumbnail-at-30-seconds.png"/>
+    <img src="thumbnail-at-45-seconds.png"/>
+
+	  <h2>Locations for the zip code <%= Datum.ZipCode %> in the country <%= Datum.Country %>:</h2>
+<%
+  for (var i = 0; i < Scratch.Locations.length; i++)
+  {
+%>
+      <p><span><%= Scratch.Locations[i].City %></span> 
+      at (<%= Scratch.Locations[i].Latitude %>, <%= Scratch.Locations[i].Longitude %>) 
+      in <%= Scratch.Locations[i].County %> <%= Scratch.Locations[i].State %>.</p>
+<%
+  }
+%>
+	  <hr/>
+
+	  <h2>Links on the Never Work in Theory blog:</h2>
+	  <ol>
+<%
+  for (var i = 0; i < Scratch.Links.length; i++)
+  {
+    Behaviors.manifestLog(Manifest, 'Rendering a link to the report, index '+i+' => '+Scratch.Links[i]);
+%>
+      <li><%= Scratch.Links[i] %></li>
+<%
+    if (i % 11 == 10)
+    {
+%>
+      <div style="page-break-before: always;">oh</div>
+<%
+    }
+  }
+%>
+	  </ol>
+	  <hr/>
+  </body>
+</html>

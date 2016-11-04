@@ -1,0 +1,17 @@
+{
+	"Hash": "default",
+
+	"Name": "Default Report",
+	"Description":"The default report.",
+
+	"Summary": "A plain default report.  Our datum is: <%= JSON.stringify(Datum) %>",
+
+	"Types": ["html"],
+
+	"DefaultType": ["html"],
+
+	"EntryPoints":
+	{
+		"html":"index.html"
+	}
+}

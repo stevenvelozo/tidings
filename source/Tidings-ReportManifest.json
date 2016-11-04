@@ -1,0 +1,48 @@
+{
+   "Metadata":
+   {
+      "IDReportDescription": "0",
+      "GUIDReportDescription": "",
+
+      "Type": "default",
+      "Title": "The Default Report",
+      "Summary": "This is the summary for the default report.",
+
+      "Renderer": "html",
+      "DefaultFile": "index.html",
+      
+      "Version":0,
+      
+      "Creator": "Unknown",
+      "CreatingIDUser": 0,
+      "CreateDate": false,
+      
+      "Updator": "",
+      "UpdatingIDUser": 0,
+      "UpdateDate": false,
+      
+      "LocationHash": false,
+      
+      "RepresentedDateBegin": false,
+      "RepresentedDateEnd": false
+   },
+
+   "Status":
+   {
+      "Rendered": false,
+      "CompletionProgress": 0.0,
+      "StartTime": 0,
+      "EndTime": 0,
+      "CompletionTime": 0
+   },
+
+   "AssetCollectionList": [],
+   
+   "RasterizationList": [],
+
+   "Errors": [],
+
+   "Templates": [],
+
+   "Log": []
+}

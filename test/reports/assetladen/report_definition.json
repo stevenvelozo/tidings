@@ -1,0 +1,110 @@
+{
+	"Hash":"assetladen",
+
+	"Name": "Asset Laden Test Report",
+	"Description":"The Asset Laden default report for our unit tests.",
+
+	"Summary": "This is the asset laden report for <%= Datum.Name %>",
+
+	"Renderers": 
+	{
+		"html":
+		{
+			"Templates":
+				[
+					{"File":"index.html"}
+				],
+			"DefaultFile":"index.html"
+		},
+		"htmlwithvideo":
+		{
+			"Templates":
+				[
+					{"File":"index.html"}
+				],
+			"DefaultFile":"index.html",
+			"Rasterization":
+				[
+				   {
+						"Rasterizer": "FFMPEG",
+						"File": "The_Mermaid_512kb.mp4",
+						"Path": "Common",
+						"Options":
+						{
+							"Method": "screenshots",
+							"Configuration":
+							{
+							    "timestamps": ["15", "30", "45"],
+							    "filename": "thumbnail-at-%s-seconds.png",
+							    "size": "320x240"
+							}
+						}
+					}
+				]
+		},
+		"pdf":
+		{
+			"Templates":
+				[
+					{"File":"index.html"}
+				],
+			"DefaultFile":"index.pdf",
+			"Rasterization":
+				[
+				   {
+						"Rasterizer": "WKHTMLTOPDF",
+						"File": "index.html",
+						"Output": "index.pdf"
+					}
+				]
+		},
+		"phantompdf":
+		{
+			"Templates":
+				[
+					{"File":"index.html"}
+				],
+			"DefaultFile":"index.pdf",
+			"Rasterization":
+				[
+				   {
+						"Rasterizer": "Phantom",
+						"File": "index.html",
+						"Output": "index.pdf"
+					}
+				]
+		},
+		"latex":
+		{
+			"Templates":
+				[
+					{"File":"index.tex"}
+				],
+			"DefaultFile":"index.pdf",
+			"Rasterization":
+				[
+				   {
+						"Rasterizer": "LaTeX",
+						"File": "index.tex",
+						"Output": "index.pdf"
+					}
+				]
+		},
+		"diagram":
+		{
+			"Templates":
+				[
+					{"File":"index.dot"}
+				],
+			"DefaultFile":"index.png",
+			"Rasterization":
+				[
+				   {
+						"Rasterizer": "Graphviz",
+						"File": "index.dot",
+						"Output": "index.png"
+					}
+				]
+		}
+	}
+}

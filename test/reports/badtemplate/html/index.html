@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>THIS HAS AN OBVIOUSLY BAD UNDERSCORE TEMPLATE (immediately following this) <%= Datum.Name </title>
+  </head>
+  <body>
+<% Behaviors.manifestLog(Manifest, 'This is rad'); %>
+	  <h1><%= Datum.Name %></h1>
+	  <p>This is the default report.  For some datum.  By the way it has <%= Datum.Name.length %> bytes in the Name property.  And this report has GUID Manifest <%= Manifest.Metadata.GUIDReportDescription %>.</p>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+{
+	"Hash":"default",
+
+	"Name": "Default Test Report",
+	"Description":"The default report for our unit tests.",
+
+	"Summary": "This is the default report for <%= Datum.Name %>",
+
+	"Renderers": 
+	{
+		"html":
+		{
+			"Templates":
+				[
+					{"File":"index.html"}
+				]
+		}
+	}
+}

@@ -1,0 +1,19 @@
+{
+	"Hash":"default",
+
+	"Name": "Default Climate Report",
+	"Description":"The default report for the climate reporting microservice.",
+
+	"Summary": "This is the default report.",
+
+	"Renderers": 
+	{
+		"html":
+		{
+			"Templates":
+				[
+					{"File":"index.html"}
+				]
+		}
+	}
+}

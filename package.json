@@ -1,0 +1,47 @@
+{
+  "name": "tidings",
+  "version": "1.0.0",
+  "description": "Reporting scaffolding and pattern.",
+  "main": "source/Tidings.js",
+  "scripts": {
+    "start": "node source/Tidings.js",
+    "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -u tdd -R spec",
+    "test": "./node_modules/mocha/bin/_mocha -u tdd -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stevenvelozo/tidings.git"
+  },
+  "keywords": [
+    "reporting",
+    "api"
+  ],
+  "author": "Steven Velozo <steven@velozo.com> (http://velozo.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stevenvelozo/tidings/issues"
+  },
+  "homepage": "https://github.com/stevenvelozo/tidings",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "codeclimate-test-reporter": "0.1.1",
+    "coveralls": "2.11.4",
+    "istanbul": "0.4.1",
+    "mocha": "^2.3.4",
+    "mysql2": "0.15.8",
+    "supertest": "1.1.0"
+  },
+  "dependencies": {
+    "async": "1.5.0",
+    "bignumber.js": "^2.4.0",
+    "cheerio": "^0.22.0",
+    "dropbag": "^1.0.7",
+    "fable": "^1.0.1",
+    "moment": "^2.15.2",
+    "orator": "~1.0.2",
+    "quantifier": "^1.0.2",
+    "request": "^2.76.0",
+    "restify": "^4.0.3",
+    "underscore": "^1.8.3"
+  }
+}

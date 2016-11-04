@@ -1,0 +1,27 @@
+\documentclass{article}
+\begin{document}
+
+\section{<%= Datum.Name %>}
+
+\section{Locations for <%= Datum.ZipCode %> in the country <%= Datum.Country %>}
+<%
+  for (var i = 0; i < Scratch.Locations.length; i++)
+  {
+%>
+<%= Scratch.Locations[i].City %> ... (<%= Scratch.Locations[i].Latitude %>, <%= Scratch.Locations[i].Longitude %>) in <%= Scratch.Locations[i].County %> <%= Scratch.Locations[i].State %>
+<%
+  }
+%>
+
+\section{Links on the Never Work in Theory blog}
+<%
+  for (var i = 0; i < Scratch.Links.length; i++)
+  {
+    Behaviors.manifestLog(Manifest, 'Rendering a LaTeX link to the report, index '+i+' => '+Scratch.Links[i]);
+%>
+
+<%= Scratch.Links[i] %>
+<%
+  }
+%>
+\end{document}

@@ -1,0 +1,19 @@
+{
+  "name": "tidings-climate-example",
+  "version": "1.0.0",
+  "description": "Example report service using tidings.",
+  "main": "Tidings-Climate.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "steven velozo <steven@velozo.com>",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^2.1.2",
+    "csv-parse": "^1.1.7",
+    "fable": "^1.0.1",
+    "line-by-line": "^0.1.5",
+    "quantifier": "^1.0.3",
+    "retold": "^1.0.5"
+  }
+}

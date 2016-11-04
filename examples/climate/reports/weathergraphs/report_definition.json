@@ -1,0 +1,20 @@
+{
+	"Hash":"assetladen",
+
+	"Name": "Asset Laden Test Report",
+	"Description":"The Asset Laden default report for our unit tests.",
+
+	"Summary": "This is the asset laden report for <%= Datum.Name %>",
+
+	"Renderers": 
+	{
+		"html":
+		{
+			"Templates":
+				[
+					{"File":"index.html"}
+				],
+			"DefaultFile":"index.html"
+		}
+	}
+}
