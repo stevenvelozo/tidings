@@ -3,7 +3,7 @@
 // This function parses the downloaded html asset, pulls out a list of links (literally 'a' elements) and builds a list for our report to use
 var parseNeverWorkInTheory = (pState, fCallback) =>
 {
-	pState.Behaviors.loadAssetFile(pState, 'NeverWorkInTheory.html',
+	pState.Behaviors.loadReportFile(pState, 'Asset', 'NeverWorkInTheory.html',
 		function(pError, pData)
 		{
 			// Stuff the callback in a variable
@@ -31,7 +31,7 @@ var parseNeverWorkInTheory = (pState, fCallback) =>
 					// Store it in the state scratch area (for use internally)
 					pState.Scratch.Links = tmpLinkList;
 					// Save it to a scratch file (for processing by external tools, etc.)
-					pState.Behaviors.saveScratchFile(pState, 'Links.json', JSON.stringify(tmpLinkList,null,4),
+					pState.Behaviors.saveReportFile(JSON.stringify(tmpLinkList,null,4), 'Scratch', 'Links.json', pState,
 						(pError)=>
 						{
 							// This report definition could error handle here
@@ -46,7 +46,7 @@ var parseZipCodes = (pState, fCallback) =>
 {
 	// The data looks like this:
 	// {"postalcodes":[{"adminCode2":"033","adminCode1":"WA","adminName2":"King County","lng":-122.302236,"countryCode":"US","postalcode":"98105","adminName1":"Washington","placeName":"Seattle","lat":47.663266},...
-	pState.Behaviors.loadAssetFile(pState, 'ZipCodes.json',
+	pState.Behaviors.loadReportFile(pState, 'Asset', 'ZipCodes.json',
 		function(pError, pData)
 		{
 			var tmpLocations = [];

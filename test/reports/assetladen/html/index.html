@@ -9,14 +9,9 @@
   <body>
 	  <h1><%= Datum.Name %></h1>
 	  <p>This is not the default report.  By the way it has <%= Datum.Name.length %> bytes in the Name property.  And this report has GUID Manifest <%= Manifest.Metadata.GUIDReportDescription %>.</p>
-	  <!-- This is a "common files" image -->
+	  <!-- This is a "common files" image, which is in tidings/test/reports/assetladen/common -->
 	  <img src="assetladen/Nyan.png"/>
 	  <hr/>
-
-    <h2>Thumbnails from the video in Common Files</h2>
-    <img src="thumbnail-at-15-seconds.png"/>
-    <img src="thumbnail-at-30-seconds.png"/>
-    <img src="thumbnail-at-45-seconds.png"/>
 
 	  <h2>Locations for the zip code <%= Datum.ZipCode %> in the country <%= Datum.Country %>:</h2>
 <%

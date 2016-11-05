@@ -15,7 +15,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 	var tmpFileName = pTaskData.File;
 	// If no path was supplied, use the Asset path
 	if (!pTaskData.hasOwnProperty('Path') || !pTaskData.Path)
-		pTaskData.Path = pState.Manifest.Metadata.Locations.Asset;
+		pTaskData.Path = 'Asset';
 		
 	libRequest(pTaskData.URL,
 		(pRequestError, pResponse, pBody)=>
@@ -31,7 +31,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 
 			pTaskData.RequestEndTime = +new Date();
 
-			pState.Behaviors.saveAssetFile(pBody, tmpFileName, pState, 
+			pState.Behaviors.saveReportFile(pBody, pTaskData.Path, tmpFileName, pState, 
 				()=>
 				{
 					pTaskData.PersistCompletionTime = +new Date();

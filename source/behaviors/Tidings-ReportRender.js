@@ -36,24 +36,22 @@ module.exports = (pDatum, pFable, fCallback) =>
 		// The behaviors for working on Manifests, which is going to be passed around between phases.
 		// These can be extended by the functions that the report data gets passed to.
 		Behaviors: {
+			persistManifest: persistManifest,
+
 			stateLog: loadReportBehavior('stateLog'),
 			manifestLog: loadReportBehavior('manifestLog'),
 			addTemplate: loadReportBehavior('addTemplate'),
 			setProgressPercentage: loadReportBehavior('setProgressPercentage'),
 
+			downloadAsset: loadReportBehavior('downloadAsset'),
+
 			// These are for extra sugar in the reports override functions
 			parseReportPath: loadReportBehavior('parseReportPath'),
-			loadFile: loadReportBehavior('loadFile'),
+			loadReportFile: loadReportBehavior('loadReportFile'),
 			saveReportFile: loadReportBehavior('saveReportFile'),
-			loadAssetFile: loadReportBehavior('loadAssetFile'),
-			saveAssetFile: loadReportBehavior('saveAssetFile'),
-			loadScratchFile: loadReportBehavior('loadScratchFile'),
-			saveScratchFile: loadReportBehavior('saveScratchFile'),
 
-			persistManifest: persistManifest,
 			processReportTemplateFile: loadReportBehavior('processReportTemplateFile'),
-			processRasterizationTask: loadReportBehavior('processRasterizationTask'),
-			downloadAsset: loadReportBehavior('downloadAsset')
+			processRasterizationTask: loadReportBehavior('processRasterizationTask')
 		},
 	});
 

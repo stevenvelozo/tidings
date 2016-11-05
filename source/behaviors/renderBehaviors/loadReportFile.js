@@ -8,7 +8,7 @@ module.exports = (pState, pPath, pFileName, fCallback) =>
 {
 	pState.Libraries.DropBag.readFile(
 		{
-			Path:pPath,
+			Path:pState.Behaviors.parseReportPath(pPath, pState),
 			File:pFileName
 		},
 		(pError, pData)=>
