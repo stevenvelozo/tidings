@@ -63,7 +63,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 					return tmpContent;
 				};
 				// Generate the content and save it to the defined location
-				pState.Behaviors.saveReportFile(generateTemplatedContent(pData, pState), pTaskData.OutputPath, tmpFileName, pState, fCallback);
+				pState.Behaviors.saveReportFile(pState, generateTemplatedContent(pData, pState), pTaskData.OutputPath, tmpFileName, fCallback);
 			}
 		});
 };

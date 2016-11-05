@@ -31,7 +31,7 @@ var parseNeverWorkInTheory = (pState, fCallback) =>
 					// Store it in the state scratch area (for use internally)
 					pState.Scratch.Links = tmpLinkList;
 					// Save it to a scratch file (for processing by external tools, etc.)
-					pState.Behaviors.saveReportFile(JSON.stringify(tmpLinkList,null,4), 'Scratch', 'Links.json', pState,
+					pState.Behaviors.saveReportFile(pState, JSON.stringify(tmpLinkList,null,4), 'Scratch', 'Links.json',
 						(pError)=>
 						{
 							// This report definition could error handle here

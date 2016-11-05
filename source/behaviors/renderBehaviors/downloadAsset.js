@@ -31,7 +31,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 
 			pTaskData.RequestEndTime = +new Date();
 
-			pState.Behaviors.saveReportFile(pBody, pTaskData.Path, tmpFileName, pState, 
+			pState.Behaviors.saveReportFile(pState, pBody, pTaskData.Path, tmpFileName, 
 				()=>
 				{
 					pTaskData.PersistCompletionTime = +new Date();

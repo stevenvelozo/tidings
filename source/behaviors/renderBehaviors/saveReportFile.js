@@ -5,7 +5,7 @@
 */
 
 // File write functions
-module.exports = (pData, pPath, pFileName, pState, fCallback) =>
+module.exports = (pState, pData, pPath, pFileName, fCallback) =>
 {
 	// Now write out the file
 	pState.Libraries.DropBag.storeFile(
