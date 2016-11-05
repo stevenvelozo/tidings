@@ -19,7 +19,7 @@ module.exports = (pDatum, pFable, fCallback) =>
 	{
 		return require(__dirname+'/renderBehaviors/'+pBehavior+'.js');
 	};
-	
+
 	var persistManifest = loadReportBehavior('persistManifest');
 
 	// The state object for passing between phases
@@ -42,8 +42,9 @@ module.exports = (pDatum, pFable, fCallback) =>
 			setProgressPercentage: loadReportBehavior('setProgressPercentage'),
 
 			// These are for extra sugar in the reports override functions
+			parseReportPath: loadReportBehavior('parseReportPath'),
 			loadFile: loadReportBehavior('loadFile'),
-			saveStageFile: loadReportBehavior('saveStageFile'),
+			saveReportFile: loadReportBehavior('saveReportFile'),
 			loadAssetFile: loadReportBehavior('loadAssetFile'),
 			saveAssetFile: loadReportBehavior('saveAssetFile'),
 			loadScratchFile: loadReportBehavior('loadScratchFile'),
