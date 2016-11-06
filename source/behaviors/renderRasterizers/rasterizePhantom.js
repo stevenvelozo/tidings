@@ -4,7 +4,7 @@
 * @author <steven@velozo.com>
 */
 
-// To use this you have to: npm install phantom-js-prebuilt phantom-html-to-pdf
+// To use this you have to: npm install phantomjs-prebuilt phantom-html-to-pdf
 // docs https://www.npmjs.com/package/phantom-html-to-pdf
 var libPhantom = require("phantom-html-to-pdf")();
 var libFS = require('fs');
@@ -16,7 +16,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 	// If no path was supplied, use the Stage path
 	if (!pTaskData.Path)
 		pTaskData.Path = pState.Manifest.Metadata.Locations.Stage;
-	
+
 	if (!pTaskData.OutputPath)
 		pTaskData.OutputPath = pState.Manifest.Metadata.Locations.Stage;
 
@@ -37,6 +37,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 		(pError) =>
 		{
 			pState.Behaviors.stateLog(pState, 'Error generating pdf with PhantomPDF: '+JSON.stringify(pTaskData)+' '+pError, true);
+			fCallback(null, pState);
 		}
 	);
 

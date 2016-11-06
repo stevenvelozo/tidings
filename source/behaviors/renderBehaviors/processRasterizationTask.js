@@ -60,8 +60,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 		var tmpRasterizer = require('../renderRasterizers/rasterize'+pTaskData.Rasterizer+'.js');
 		
 		// Check if the Path is set to one of the constants (this lets you set a Path of something like "Stage" or "Common" etc.)
-		if (pState.Manifest.Metadata.Locations.hasOwnProperty(pTaskData.Path))
-			pTaskData.Path = pState.Manifest.Metadata.Locations[pTaskData.Path];
+		pTaskData.Path = pState.Behaviors.parseReportPath(pTaskData.Path, pState);
 
 		tmpRasterizer(pTaskData, pState, 
 			(pError, pState)=>

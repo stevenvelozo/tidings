@@ -18,4 +18,4 @@ echo "-> WKHTMLTOPDF"
 npm install wkhtmltopdf-selfcontained
 
 echo "-> PhantomJS"
-npm install phantom-js-prebuilt phantom-html-to-pdf
+npm install phantomjs-prebuilt phantom-html-to-pdf

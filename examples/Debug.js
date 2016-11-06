@@ -11,8 +11,8 @@ var defaultReportDatum =
 {
 	TidingsData:
 	{
-			Renderer: 'complex',
-			Type:'code'
+			Renderer: 'phantompdf',
+			Type:'assetladen'
 	},
 	Name: 'Gangnam Style'
 };
@@ -49,7 +49,8 @@ _Orator.startWebServer(()=>
 						libTidings.getReportData(tmpReportGUID,
 							(pError, pData)=>
 							{
-								console.log(pError);
+								if (pError)
+									console.log(pError);
 							}
 						);
 				});

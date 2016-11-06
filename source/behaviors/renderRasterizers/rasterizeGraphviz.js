@@ -27,6 +27,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 		(pGraph) =>
 		{
 			pGraph.render('png', pTaskData.OutputPath+pTaskData.Output);
+			fCallback(null, pState);
 		}
 	);
 };
