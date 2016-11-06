@@ -51,7 +51,8 @@ module.exports = (pDatum, pFable, fCallback) =>
 			saveReportFile: loadReportBehavior('saveReportFile'),
 
 			processReportTemplateFile: loadReportBehavior('processReportTemplateFile'),
-			processRasterizationTask: loadReportBehavior('processRasterizationTask')
+			processRasterizationTask: loadReportBehavior('processRasterizationTask'),
+			explodeTemplateFiles: loadReportBehavior('explodeTemplateFiles')
 		},
 	});
 
@@ -227,6 +228,8 @@ module.exports = (pDatum, pFable, fCallback) =>
 				pState.Behaviors.stateLog(pState, 'Parsing the Report Definition for Renderer');
 				if (pState.Definition.hasOwnProperty('Renderers') && pState.Definition.Renderers.hasOwnProperty(pState.Manifest.Metadata.Renderer))
 				{
+					// Add the renderer files folder
+					pState.Manifest.Metadata.Locations.Renderer = pState.Manifest.Metadata.Locations.ReportDefinition+pState.Manifest.Metadata.Renderer+'/';
 					// There is a renderer-specific definitions
 					if (pState.Definition.Renderers[pState.Manifest.Metadata.Renderer].hasOwnProperty('DefaultFile'))
 						pState.Manifest.Metadata.DefaultFile = pState.Definition.Renderers[pState.Manifest.Metadata.Renderer].DefaultFile;
@@ -292,6 +295,15 @@ module.exports = (pDatum, pFable, fCallback) =>
 				pState.Behaviors.stateLog(pState, 'Executing calculate function...');
 				//  (e.g. the report might need to aggregate 3 sets of data into a new 4th set of data)
 				pState.ReportBehaviors.calculate(pState, fStageComplete);
+			},
+			(pState, fStageComplete) => { pState.Behaviors.setProgressPercentage(pState, 75, fStageComplete); },
+			persistManifest,
+			// : Execute the report calculate function
+			(pState, fStageComplete) =>
+			{
+				pState.Behaviors.stateLog(pState, 'Exploding template files...');
+				//  (e.g. the report might need to aggregate 3 sets of data into a new 4th set of data)
+				pState.Behaviors.explodeTemplateFiles(pState, fStageComplete);
 			},
 			(pState, fStageComplete) => { pState.Behaviors.setProgressPercentage(pState, 75, fStageComplete); },
 			persistManifest,

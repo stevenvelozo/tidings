@@ -12,9 +12,9 @@ module.exports = (pPath, pState) =>
 		tmpPath = pState.Manifest.Metadata.Locations[tmpPath];
 
 	// Now check the ancestry
-	if (!pState.Libraries.DropBag.checkHeritage({Path:tmpPath, Lineage:pState.Manifest.Metadata.Locations.Root}, ()=>{}))
+	//if (!pState.Libraries.DropBag.checkHeritage({Path:tmpPath, Lineage:pState.Manifest.Metadata.Locations.Root}, ()=>{}))
 		// If the ancestry check fails, don't allow the write and default to stage
-		tmpPath = pState.Manifest.Metadata.Locations.Stage;
+	//	tmpPath = pState.Manifest.Metadata.Locations.Stage;
 
 	return tmpPath;
 };

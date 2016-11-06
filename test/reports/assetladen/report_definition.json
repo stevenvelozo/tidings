@@ -8,14 +8,7 @@
 
 	"Renderers": 
 	{
-		"html":
-		{
-			"Templates":
-				[
-					{"File":"index.html"}
-				],
-			"DefaultFile":"index.html"
-		},
+		"html":{},
 		"htmlwithvideo":
 		{
 			"Templates":

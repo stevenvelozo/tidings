@@ -8,6 +8,10 @@ var libTemplateValidation = require('./templateValidation.js');
 
 module.exports = (pTaskData, pState, fCallback) =>
 {
+	// This gets set by the auto explode
+	if (pTaskData.Ignore)
+		return fCallback();
+
 	var tmpFileName = pTaskData.File;
 	// If no path was supplied, use the renderer path
 	if (!pTaskData.hasOwnProperty('Path') || !pTaskData.Path)
