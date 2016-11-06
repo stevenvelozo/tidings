@@ -25,19 +25,18 @@ Each report is described by a "Report Description" object.  When you request a r
 ## How do I Use This (aka _quick start guide_)
 So you want to create a report.  Follow these simple steps to success (assuming you are in the folder of some node.js application code):
 
-1. Install the Tidings and Fable NPM Modules:
-
+#### Step 1: Install the Tidings and Fable NPM Modules:
 ```
  npm install --save tidings fable
 ```
 
-2. Make a folder to store your report definitions:
-
+#### Step 2: Make a folder to store your report definitions:
 ```
 mkdir myreports
 ```
 
-3. Initialize your Fable and Tidings modules in code:
+#### Step 3: Initialize your Fable and Tidings modules in code:
+This code goes into your node application.  Mine is a new file called `server.js`:
 
 ```
 const libFable = require('fable').new(
@@ -53,18 +52,12 @@ const libFable = require('fable').new(
 const libTidings = require('tidings').new(libFable);
 ```
 
-4. Create a default report:
-
+#### Step 4: Create a default report:
 This is where the bulk of what we need to do happens.  In order to create a report, we need at least three files.  Later we will drive into what they do in the generation process.
 
 Each report has a *Type*, which defines what type of report it is.  The *Type* also matches what folder it goes in.  So to create an `default` *Type* report, we create a folder like so:
 ```
 mkdir myreports/default
-```
-
-Then, we want to create a *Renderer* for `html`.
-```
-mkdir myreports/default/html
 ```
 
 Later we will dive into what *Type* and *Renderer* mean.  For now we can just say that tidings has a bunch of defaults, and the default *Report Type* is `default` and the default *Report Renderer* is `html`.
@@ -129,7 +122,8 @@ And finally put this content in:
 </html>
 ```
 
-5. Tell Tidings module to generate the default report:
+#### Step 5: Tell Tidings module to generate the default report:
+This code goes in your node application, after you have initialized Fable and Tidings.  For me this is again in my `server.js` file:
 
 ```
 var reportHash = libTidings.render(
@@ -145,7 +139,7 @@ var reportHash = libTidings.render(
 );
 ```
 
-6. Finally we can run the report:
+#### Step 6: Finally we can run the report:
 ```
 stevenvelozo:~/workspace $ node server.js
 {"name":"Fable","hostname":"stevenvelozo-tidings-tutorial-3993273","pid":2204,"level":30,"Source":"0x560eb56006c00000","ver":"0.0.0","datum":{},"msg":"Creating folders at /home/ubuntu/workspace/stage/0x560eb56067000000","time":"2016-11-06T18:10:20.909Z","v":0}
@@ -159,6 +153,30 @@ stevenvelozo:~/workspace $
 ```
 
 If all went to plan, you should have a folder with the report data fully staged in `/home/ubuntu/workspace/stage/0x560eb56067000000` (really some similar folder .. we logged it out to the console when rendering was done).  The staged folder includes a copy of the final manifest, and a “Stage” location where you can find the index.html.
+
+The resulting folder tree should look something like this (including the run report):
+
+```
+|-- myreports
+|  `-- default
+|     |-- html
+|     |  `-- index.html
+|     |-- report.js
+|     `-- report_definition.json
+|-- node_modules
+|  |-- fable
+|  `-- tidings
+|-- package.json
+|-- server.js
+`-- stage
+   `-- 0x560eb56067000000
+      |-- Assets
+      |-- Datum.json
+      |-- Manifest.json
+      `-- Stage
+         `-- index.html
+```
+
 
 #### TODO: Show how to create a PDF, styles, web serving, web services, etc.
 
