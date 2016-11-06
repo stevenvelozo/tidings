@@ -11,8 +11,8 @@ var defaultReportDatum =
 {
 	TidingsData:
 	{
-			Renderer: 'phantompdf',
-			Type:'assetladen'
+			Renderer: 'complex',
+			Type:'code'
 	},
 	Name: 'Gangnam Style'
 };
@@ -36,6 +36,7 @@ var libTidings = require(__dirname+'/../source/Tidings.js').new(libFable);
 
 var _Orator = libTidings.Orator();
 libTidings.connectRoutes(_Orator.webServer);
+libTidings.connectOutputRoutes(_Orator);
 _Orator.startWebServer(()=>
 	{
 		libFable.log.info('Server has been started!');

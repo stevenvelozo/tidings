@@ -193,6 +193,12 @@ var Tidings = function()
 			return _Orator;
 		};
 
+		
+		tmpNewTidingsObject.connectOutputRoutes = (pOrator) =>
+		{
+			var tmpReportRoot = (typeof(_Fable.settings.TidingsReportRoot) === 'string') ? _Fable.settings.TidingsReportRoot : '/1.0/Report/Files';
+			pOrator.addStaticRoute(_Fable.settings.Tidings.ReportOutputFolder, 'index.html', new RegExp(tmpReportRoot+'/.*'), tmpReportRoot);
+		};
 
 		/**
 		 * Endpoints
