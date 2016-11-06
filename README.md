@@ -1,53 +1,203 @@
 # Tidings
+An extensible micro-service friendly reporting system.  Meant to be drop-in and super easy to use.
 
-An extensible reporting system.  Meant to be drop-in and super easy to use.
+This was built after looking at what was available on the free and paid market to solve the following requirements:
 
+1. I have some data in my application (say, a set of temperatures associated with timestamps)
+2. I want to create a few reports for my users
+    - a chart with average temperatures by hour
+    - a calendar with average temperatures by day of week
+    - a histogram of temperature distribution
+3. These reports need to work on mobile and browser web (html)
+4. They should be able to be made into PDFs
+5. There should be thumbnails to show previews on my web app
+6. I want to be able to add reports without changing any application code
+
+It turns out that just doing these things with most off-the-shelf reporting tools is challenging to nigh impossible.  Further, they really don’t mesh well with micro-service architecture.
+
+We also wanted to optimize the ratio of *configuration* versus *code*.  Less code is less debt!
+
+### REWRITE THIS
+## Technology Summary
 Each report is described by a "Report Description" object.  When you request a report, this object is created and embeds the data you pass as a child object called the "Datum".  Each run of the report creates a "Report Manifest".  This carries state and information about the run.  A few key properties from the child object are looked for, and affect how the report is run.  The most important property is "Type", and a close second is "Renderer".
+### END REWRITE
+
+## How do I Use This (aka _quick start guide_)
+So you want to create a report.  Follow these simple steps to success (assuming you are in the folder of some node.js application code):
+
+1. Install the Tidings and Fable NPM Modules:
+
+```
+ npm install --save tidings fable
+```
+
+2. Make a folder to store your report definitions:
+
+```
+mkdir myreports
+```
+
+3. Initialize your Fable and Tidings modules in code:
+
+```
+const libFable = require('fable').new(
+{
+	Tidings:
+	{
+		ReportDefinitionFolder: `${__dirname}/myreports/`,
+		ReportOutputFolder: `${__dirname}/stage/`
+	}
+}
+);
+
+const libTidings = require('tidings').new(libFable);
+```
+
+4. Create a default report:
+
+This is where the bulk of what we need to do happens.  In order to create a report, we need at least three files.  Later we will drive into what they do in the generation process.
+
+Each report has a *Type*, which defines what type of report it is.  The *Type* also matches what folder it goes in.  So to create an `default` *Type* report, we create a folder like so:
+```
+mkdir myreports/default
+```
+
+Then, we want to create a *Renderer* for `html`.
+```
+mkdir myreports/default/html
+```
+
+Later we will dive into what *Type* and *Renderer* mean.  For now we can just say that tidings has a bunch of defaults, and the default *Report Type* is `default` and the default *Report Renderer* is `html`.
+
+For a report to work it needs at least three files — we can create those now.
+
+First the *Report Definition*.  A `json` file which goes in `myreports/default/report_definition.json`.  We can create that by doing the following:
+```
+touch myreports/default/report_definition.json
+```
+
+Then putting the following content in:
+```
+{
+	"Hash":"default",
+	"Name": "My First Report",
+	"Renderers": 
+	{
+		"html": {}
+	}
+}
+```
+
+The only thing we care about here is that we’ve told it the *Report Type* Hash is `html`.
+
+Next we are going to create the *Report Script* file, where we can override behaviors in various phases of generating a report:
+```
+touch myreports/default/report.js
+```
+
+Then putting the following content in:
+```
+module.exports = {};
+```
+
+There aren’t any customizations done to code yet, so we aren’t going to worry about putting anything in there.
+
+Lastly we need some template content for the engine to do something with.  Content is associated with the *Report Renderer*.  This means we need to create the folder:
+```
+mkdir myreports/default/html
+```
+
+Then create the basic file:
+```
+touch myreports/default/html/index.html
+```
+
+And finally put this content in:
+```
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Default Report</title>
+  </head>
+  <body>
+	  <h1>Song Report</h1>
+	  <p>Artist: <%= Datum.Artist %></p>
+	  <p>Song: <%= Datum.Song %></p>
+	  <p>Year: <%= Datum.Year %></p>
+  </body>
+</html>
+```
+
+5. Tell Tidings module to generate the default report:
+
+```
+var reportHash = libTidings.render(
+  {
+    Artist:'Queen', 
+    Song:'We Will Rock You',
+    Year: 1977
+  },
+  (error)=>
+  {
+    console.log(`Report rendered to: ${libFable.settings.Tidings.ReportOutputFolder}/${reportHash}`);
+  }
+);
+```
+
+6. Finally we can run the report:
+```
+stevenvelozo:~/workspace $ node server.js
+{"name":"Fable","hostname":"stevenvelozo-tidings-tutorial-3993273","pid":2204,"level":30,"Source":"0x560eb56006c00000","ver":"0.0.0","datum":{},"msg":"Creating folders at /home/ubuntu/workspace/stage/0x560eb56067000000","time":"2016-11-06T18:10:20.909Z","v":0}
+{"name":"Fable","hostname":"stevenvelozo-tidings-tutorial-3993273","pid":2204,"level":30,"Source":"0x560eb56006c00000","ver":"0.0.0","datum":{},"msg":"...persisted the Report Datum","time":"2016-11-06T18:10:20.921Z","v":0}
+{"name":"Fable","hostname":"stevenvelozo-tidings-tutorial-3993273","pid":2204,"level":30,"Source":"0x560eb56006c00000","ver":"0.0.0","datum":{},"msg":"...persisted the Report Manifest for 0x560eb56067000000 type default","time":"2016-11-06T18:10:20.924Z","v":0}
+. . . . . . . TONS OF SPAM LATER . . . . . . . .
+{"name":"Fable","hostname":"stevenvelozo-tidings-tutorial-3993273","pid":2204,"level":30,"Source":"0x560eb56006c00000","ver":"0.0.0","datum":{},"msg":"Rendering completed in 52ms","time":"2016-11-06T18:10:20.959Z","v":0}
+{"name":"Fable","hostname":"stevenvelozo-tidings-tutorial-3993273","pid":2204,"level":30,"Source":"0x560eb56006c00000","ver":"0.0.0","datum":{},"msg":"...persisted the Report Manifest for 0x560eb56067000000 type default","time":"2016-11-06T18:10:20.960Z","v":0}
+Report rendered to: /home/ubuntu/workspace/stage//0x560eb56067000000
+stevenvelozo:~/workspace $
+```
+
+If all went to plan, you should have a folder with the report data fully staged in `/home/ubuntu/workspace/stage/0x560eb56067000000` (really some similar folder .. we logged it out to the console when rendering was done).  The staged folder includes a copy of the final manifest, and a “Stage” location where you can find the index.html.
+
+#### TODO: Show how to create a PDF, styles, web serving, web services, etc.
 
 # Terminology
 
 ## Datum
-
-The core data for the report, sent either in a `POST` request or via the call to Tidings.
+The datum is the core data for the report.  It is sent either in a `POST` request or via the call to Tidings.
 
 ## Report Definition
-
 The definition for a report, including at minimum a JSON file, a JS file and at least one templated text file for each Renderer.
 
 ## Report Description
-
 The content in a JSON file describing a report.  This tells tidings what assets to download, what templates to process and what rasterizers to run.
 
 ## Report Script
-
 A javascript file that you can define functions in to inject functionality between phases of the Tidings report generation process.
 
 ## Report Run Manifest
-
 A json file that is created and updated as a report is generating.  Reports can take a long time to complete, this file can be continually updated to reflect that.
 
 ## Type
-
 The type of report being rendered.  Type is a business context, so this could be a "Equipment Received" report or a "Expense Tally" report.  The strings must be folder names for where the Report Definition is.
 
 ## Renderer
-
 The render method for reports.  The default is `html`, and the engine looks for a folder named `html` in the Report Definition folder.  You could create a `pdf` version of the same report, or get very exotic and create a `xls` report.  These are not limited to formats, though -- you could easily generate a `html-summary`, `html` and `html-extended` to use the same data for two views of the same report.
 
-
 # Rasterizers
-
 Tidings comes bundled with a number of rasterizers.  After the report has gathered and calculated any intermediate data, assets can be generated.  This includes images, pdfs, videos, audio, whatever you like.  Each rasterizer plugin requires an OS installation of some kind, and an NPM installation to work.  This is to prevent the NPM dependencies for this reporting library from getting ridiculously large, while also not requiring six other modules to be loaded to work.
 
 ### PhantomPDF
-
 PhantomJS is a headless WebKit scriptable with a JavaScript API. It has fast and native support for various web standards: DOM handling, CSS selector, JSON, Canvas, and SVG.
 
 http://phantomjs.org/
 
+```
+npm install phantomjs-prebuilt phantom-html-to-pdf
+```
 
 ### WKHTMLTOPDF
-
 wkhtmltopdf and wkhtmltoimage are open source (LGPLv3) command line tools to render HTML into PDF and various image formats using the Qt WebKit rendering engine. These run entirely "headless" and do not require a display or display service.
 
 http://wkhtmltopdf.org/
