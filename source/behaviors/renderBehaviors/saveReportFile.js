@@ -12,7 +12,8 @@ module.exports = (pState, pData, pPath, pFileName, fCallback) =>
 		{
 			File: pFileName,
 			Path: pState.Behaviors.parseReportPath(pPath, pState),
-			Data: pData
+			Data: pData,
+			AutoCreateFolders: true
 		},
 		(pPersistError)=>
 		{

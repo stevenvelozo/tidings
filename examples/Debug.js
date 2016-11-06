@@ -11,8 +11,8 @@ var defaultReportDatum =
 {
 	TidingsData:
 	{
-			Type:'assetladen'
-			//,Renderer: 'pdf'
+			Renderer: 'complex',
+			Type:'code'
 	},
 	Name: 'Gangnam Style'
 };
@@ -45,6 +45,13 @@ _Orator.startWebServer(()=>
 				(pError)=>
 				{
 					if (pError) libFable.log.error('Debugger error: '+pError, pError);
+					
+						libTidings.getReportData(tmpReportGUID,
+							(pError, pData)=>
+							{
+								console.log(pError);
+							}
+						);
 				});
 			
 			libFable.log.info('Rendering report GUID '+tmpReportGUID);

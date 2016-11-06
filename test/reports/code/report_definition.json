@@ -1,0 +1,16 @@
+{
+	"Hash":"code",
+
+	"Name": "Code Generation Report",
+	"Description":"This report generates code!",
+
+	"Summary": "The report generates code in a number of languages based on the datum!",
+
+	"Renderers": 
+	{
+		"cpp":{"DefaultFile":"program.cpp"},
+		"c":{"DefaultFile":"program.c"},
+		"js":{"DefaultFile":"program.js"},
+		"html":{}
+	}
+}

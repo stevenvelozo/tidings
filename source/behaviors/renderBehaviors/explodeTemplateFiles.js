@@ -7,8 +7,10 @@
 var libFS = require('fs');
 var libPath = require('path');
 
-var recurseFiles = (pPath, pState, fRecursionComplete) =>
+var recurseFiles = (pPath, pState, fRecursionComplete, pPathRoot) =>
 {
+	var tmpPathRoot = (typeof(pPathRoot) === 'undefined') ? pPath : pPathRoot;
+
 	libFS.readdir(pPath,
 		(pError, pFiles) => 
 		{
@@ -29,10 +31,11 @@ var recurseFiles = (pPath, pState, fRecursionComplete) =>
 								return console.log('Error: ', pStatError);
 
 							if (pFileStats.isDirectory())
-								recurseFiles(libPath.join(pPath, pFileName), pStatError, fPhaseCallback);
+								recurseFiles(libPath.join(pPath, pFileName), pState, fPhaseCallback, tmpPathRoot);
 							else
 							{
-								pState.Manifest.Templates.push({File:pFileName, Path:pPath});
+								var tmpPathFragment = libPath.resolve(pPath).replace(libPath.resolve(tmpPathRoot), '');
+								pState.Manifest.Templates.push({File:pFileName, Path:pPath, OutputPath: libPath.join(pState.Manifest.Metadata.Locations.Stage,tmpPathFragment)});
 								fPhaseCallback();
 							}
 			  			}
@@ -57,9 +60,9 @@ module.exports = (pState, fStageComplete) =>
 		(pTaskData, fPhaseCallback)=>
 		{
 			if (!pTaskData.Recursive)
-				fPhaseCallback();
+				return fPhaseCallback();
 			pTaskData.Ignore = true;
-			recurseFiles(pTaskData.Path, pState, fPhaseCallback);
+			recurseFiles(pState.Behaviors.parseReportPath(pTaskData.Path, pState), pState, fPhaseCallback);
 		},
 		1
 	);

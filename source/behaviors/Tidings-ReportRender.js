@@ -226,10 +226,10 @@ module.exports = (pDatum, pFable, fCallback) =>
 			(pState, fStageComplete) =>
 			{
 				pState.Behaviors.stateLog(pState, 'Parsing the Report Definition for Renderer');
+				// Add the renderer files folder
+				pState.Manifest.Metadata.Locations.Renderer = pState.Manifest.Metadata.Locations.ReportDefinition+pState.Manifest.Metadata.Renderer+'/';
 				if (pState.Definition.hasOwnProperty('Renderers') && pState.Definition.Renderers.hasOwnProperty(pState.Manifest.Metadata.Renderer))
 				{
-					// Add the renderer files folder
-					pState.Manifest.Metadata.Locations.Renderer = pState.Manifest.Metadata.Locations.ReportDefinition+pState.Manifest.Metadata.Renderer+'/';
 					// There is a renderer-specific definitions
 					if (pState.Definition.Renderers[pState.Manifest.Metadata.Renderer].hasOwnProperty('DefaultFile'))
 						pState.Manifest.Metadata.DefaultFile = pState.Definition.Renderers[pState.Manifest.Metadata.Renderer].DefaultFile;
@@ -368,22 +368,12 @@ module.exports = (pDatum, pFable, fCallback) =>
 			{
 				pState.Behaviors.stateLog(pState, 'Cleaning up temporary files...');
 				// Delete files from scratch
-				libDropbag.fileList({Path:pState.Manifest.Metadata.Locations.Scratch},
-					(pError, pPath, pFiles)=>
+				libDropbag.deleteFolderRecursively({Path:pState.Manifest.Metadata.Locations.Scratch},
+					(pError)=>
 					{
-						libAsync.each(pFiles,
-							(pFile, fScratchDeleteCallback)=>
-							{
-								libDropbag.deleteFile({Path:pPath, File:pFile},
-								(pError) =>
-								{
-									if (pError && typeof(pError) !== 'undefined')
-										pState.Behaviors.stateLog(pState, 'Error deleting scratch file: '+pError, true);
-									else
-										pState.Behaviors.stateLog(pState, 'Deleted scratch file: '+pFile);
-									fScratchDeleteCallback();
-								});							
-							});
+						if (pError)
+							pState.Behaviors.stateLog(pState, 'Error deleting scratch files', true);
+
 						fStageComplete(false, pState);
 					});
 			},
