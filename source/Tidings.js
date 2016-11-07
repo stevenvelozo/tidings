@@ -196,8 +196,14 @@ var Tidings = function()
 		
 		tmpNewTidingsObject.connectOutputRoutes = (pOrator) =>
 		{
-			var tmpReportRoot = (typeof(_Fable.settings.TidingsReportRoot) === 'string') ? _Fable.settings.TidingsReportRoot : '/1.0/Report/Files';
+			var tmpReportRoot = (typeof(_Fable.settings.TidingsReportRoot) === 'string') ? _Fable.settings.TidingsReportRoot+'Output' : '/1.0/ReportOutput';
 			pOrator.addStaticRoute(_Fable.settings.Tidings.ReportOutputFolder, 'index.html', new RegExp(tmpReportRoot+'/.*'), tmpReportRoot);
+		};
+
+		tmpNewTidingsObject.connectDefinitionRoutes = (pOrator) =>
+		{
+			var tmpReportRoot = (typeof(_Fable.settings.TidingsReportRoot) === 'string') ? _Fable.settings.TidingsReportRoot+'Definition' : '/1.0/ReportDefinition';
+			pOrator.addStaticRoute(_Fable.settings.Tidings.ReportDefinitionFolder, 'report_definition.json', new RegExp(tmpReportRoot+'/.*'), tmpReportRoot);
 		};
 
 		/**

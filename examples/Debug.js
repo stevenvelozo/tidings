@@ -37,6 +37,7 @@ var libTidings = require(__dirname+'/../source/Tidings.js').new(libFable);
 var _Orator = libTidings.Orator();
 libTidings.connectRoutes(_Orator.webServer);
 libTidings.connectOutputRoutes(_Orator);
+libTidings.connectDefinitionRoutes(_Orator);
 _Orator.startWebServer(()=>
 	{
 		libFable.log.info('Server has been started!');
