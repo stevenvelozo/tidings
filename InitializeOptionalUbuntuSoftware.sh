@@ -4,14 +4,19 @@ echo ""
 echo "--"
 echo ""
 
+if [ "$EUID" -ne 0 ]
+  then echo "This script must be ran with sudo"
+  exit
+fi
+
 echo "-> Update Software"
-sudo apt-get update
+apt-get update
 echo ""
 
 echo "-> LaTeX"
-sudo apt-get install texlive
+apt-get install -y texlive
 echo ""
 
 echo "-> Graphviz"
-sudo apt-get install graphviz 
+apt-get install -y graphviz 
 echo ""
