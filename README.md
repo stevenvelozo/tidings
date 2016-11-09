@@ -628,4 +628,43 @@ Or more specifically, check out this section:
 This is telling us the Underscore template does not have balanced brackets, and where it likely occurs.
 
 
+# Template Paths
 
+There are many kinds of paths which can be defined in the Templates array of a report renderer.  If the Templates array is empty, the renderer will automatically parse every file in the renderer's template folder.
+
+Further, there is a macro expansion that happens for a Path property of templates.  For instance, you could have `{ Path:'Stage', File:'MyReport.html' }` and Tidings will automatically expand the `Stage` value to be the folder that is defined as such in the `Locations` section of the Manifest Metadata.
+
+## Single Template File
+
+```
+{
+    "File": "index.html",
+    "Path": "/Retold/tidings/test/reports/budgetanalysis/html"
+}
+```
+
+## Recursive folder scan
+```
+{
+    "File": "*",
+    "Path": "/my/custom/reports/folder",
+    "Recursive": true
+}
+```
+
+## Dependency on other Renderer
+```
+{
+    "Renderer": "html",
+    "Recursive": true,
+    "File": "*",
+    "Path": "ReportDefinition"
+}
+```
+
+or simply:
+```
+{
+    "Renderer": "html"
+}
+```

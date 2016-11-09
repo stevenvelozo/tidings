@@ -11,8 +11,8 @@ var defaultReportDatum =
 {
 	TidingsData:
 	{
-			Renderer: 'complex',
-			Type:'code'
+			Type:'assetladen',
+			Renderer: 'pdf'
 	},
 	Name: 'Gangnam Style'
 };

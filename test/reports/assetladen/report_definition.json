@@ -39,7 +39,7 @@
 		{
 			"Templates":
 				[
-					{"File":"index.html"}
+					{"Renderer":"html"}
 				],
 			"DefaultFile":"index.pdf",
 			"Rasterization":

@@ -59,9 +59,23 @@ module.exports = (pState, fStageComplete) =>
 	var tmpQueue = pState.Fable.Tidings.libraries.Async.queue(
 		(pTaskData, fPhaseCallback)=>
 		{
+			// This is a renderer dependency... append the renderer to the path.
+			if (pTaskData.Renderer)
+			{
+				pTaskData.Path = libPath.join(pState.Behaviors.parseReportPath('ReportDefinition', pState), pTaskData.Renderer);
+				if (!pTaskData.File)
+					pTaskData.Recursive = true;
+			}
+
 			if (!pTaskData.Recursive)
 				return fPhaseCallback();
+
 			pTaskData.Ignore = true;
+
+			// If we create a recursive entry without the files, it shows up.
+			if (!pTaskData.Path)
+				pTaskData.Path = 'Renderer';
+
 			recurseFiles(pState.Behaviors.parseReportPath(pTaskData.Path, pState), pState, fPhaseCallback);
 		},
 		1
