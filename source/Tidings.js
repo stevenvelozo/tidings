@@ -50,6 +50,8 @@ var Tidings = function()
 		_Libraries.Moment = require('moment');
 		_Libraries.BigNumber = require('bignumber.js');
 		_Libraries.Cheerio = require('cheerio');
+		var libChance = require('chance');
+		_Libraries.Chance = new libChance();
 
 
 		var doReportRender = require('./behaviors/Tidings-ReportRender.js');
