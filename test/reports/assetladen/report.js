@@ -98,6 +98,7 @@ module.exports = (
 		// Add a couple things to the download list
 		pState.Manifest.AssetCollectionList.push({URL:'http://api.geonames.org/postalCodeLookupJSON?postalcode='+pState.Datum.ZipCode+'&country='+pState.Datum.Country+'&username=tidings',File:'ZipCodes.json'});
 		pState.Manifest.AssetCollectionList.push({URL:'http://neverworkintheory.org/',File:'NeverWorkInTheory.html'});
+		pState.Manifest.AssetCollectionList.push({URL:'https://www.google.com/',File:'Googles.html'});
 		fCallback(false, pState);
 	},
 

@@ -12,9 +12,9 @@ var defaultReportDatum =
 	TidingsData:
 	{
 			Type:'assetladen',
-			Renderer: 'pdf'
+			Renderer: 'diagram'
 	},
-	Name: 'Gangnam Style'
+	Name: 'Totally My Gangnam Style'
 };
 
 var fableConfig = 

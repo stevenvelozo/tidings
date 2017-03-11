@@ -63,7 +63,8 @@ module.exports = (pTaskData, pState, fCallback) =>
 	{
 		libWkhtmltopdf(pState.Fable.settings.Tidings.TidingsServerAddress+'/1.0/Report/'+pState.Manifest.Metadata.GUIDReportDescription+'/'+tmpFileName,
 			{
-				pageSize: 'letter'
+				pageSize: 'letter',
+				'print-media-type': true
 			}
 		).pipe(tmpOutputStream);
 	}

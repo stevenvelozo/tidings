@@ -28,13 +28,13 @@
 	  <hr/>
 
 	  <h2>Links on the Never Work in Theory blog:</h2>
-	  <ol>
+	  <table>
 <%
   for (var i = 0; i < Scratch.Links.length; i++)
   {
     Behaviors.manifestLog(Manifest, 'Rendering a link to the report, index '+i+' => '+Scratch.Links[i]);
 %>
-      <li><%= Scratch.Links[i] %></li>
+      <tr><td><%= Scratch.Links[i] %></td></tr>
 <%
     if (i % 11 == 10)
     {
@@ -44,7 +44,7 @@
     }
   }
 %>
-	  </ol>
+	  </table>
 	  <hr/>
   </body>
 </html>
