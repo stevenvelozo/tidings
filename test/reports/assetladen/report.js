@@ -99,6 +99,7 @@ module.exports = (
 		pState.Manifest.AssetCollectionList.push({URL:'http://api.geonames.org/postalCodeLookupJSON?postalcode='+pState.Datum.ZipCode+'&country='+pState.Datum.Country+'&username=tidings',File:'ZipCodes.json'});
 		pState.Manifest.AssetCollectionList.push({URL:'http://neverworkintheory.org/',File:'NeverWorkInTheory.html'});
 		pState.Manifest.AssetCollectionList.push({URL:'https://www.google.com/',File:'Googles.html'});
+		pState.Manifest.AssetCollectionList.push({URL:'https://en.wikipedia.org/static/images/project-logos/enwiki-1.5x.png',File:'WikiLogo.png'});
 		fCallback(false, pState);
 	},
 

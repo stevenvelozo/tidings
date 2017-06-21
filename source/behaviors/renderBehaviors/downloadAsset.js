@@ -17,7 +17,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 	if (!pTaskData.hasOwnProperty('Path') || !pTaskData.Path)
 		pTaskData.Path = 'Asset';
 		
-	libRequest(pTaskData.URL,
+	libRequest.head(pTaskData.URL,
 		(pRequestError, pResponse, pBody)=>
 		{
 			// We shouldn't bail out because one asset didn't download so don't alter the callback.
@@ -26,17 +26,22 @@ module.exports = (pTaskData, pState, fCallback) =>
 				pState.Behaviors.stateLog(pState, 'Error downloading asset: '+JSON.stringify(pTaskData)+' '+pRequestError, true);
 				return fCallback();
 			}
+			console.log('content-type:', pResponse.headers['content-type']);
+			console.log('content-length:', pResponse.headers['content-length']);
 			
-			pTaskData.Size = pBody.length;
+			pTaskData.Size = parseInt(pResponse.headers['content-length'],10);
 
 			pTaskData.RequestEndTime = +new Date();
-
-			pState.Behaviors.saveReportFile(pState, pBody, pTaskData.Path, tmpFileName, 
-				()=>
+			
+			pState.Behaviors.getReportFileStream(pState, pBody, pTaskData.Path, tmpFileName, 
+				(pError, pFileStream)=>
 				{
-					pTaskData.PersistCompletionTime = +new Date();
-					pTaskData.TotalDownloadTime = pTaskData.PersistCompletionTime - pTaskData.RequestStartTime;
-					fCallback();
+					libRequest(pTaskData.URL).pipe(pFileStream).on('close', ()=>
+					{
+						pTaskData.PersistCompletionTime = +new Date();
+						pTaskData.TotalDownloadTime = pTaskData.PersistCompletionTime - pTaskData.RequestStartTime;
+						fCallback();
+					});
 				}
 			);
 		});

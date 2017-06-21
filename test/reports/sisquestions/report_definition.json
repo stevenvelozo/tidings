@@ -1,0 +1,19 @@
+{
+	"Hash":"sisquestions",
+
+	"Name": "Si has Questions",
+	"Description":"This is an example of a report that uses some data.",
+
+	"Summary": "Simple example.",
+
+	"Renderers": 
+	{
+		"html":
+		{
+			"Templates":
+				[
+					{"File":"index.html"}
+				]
+		}
+	}
+}

@@ -49,6 +49,7 @@ module.exports = (pDatum, pFable, fCallback) =>
 			parseReportPath: loadReportBehavior('parseReportPath'),
 			loadReportFile: loadReportBehavior('loadReportFile'),
 			saveReportFile: loadReportBehavior('saveReportFile'),
+			getReportFileStream: loadReportBehavior('getReportFileStream'),
 
 			processReportTemplateFile: loadReportBehavior('processReportTemplateFile'),
 			processRasterizationTask: loadReportBehavior('processRasterizationTask'),

@@ -153,6 +153,8 @@ var Tidings = function()
 			ReportRun: require('./endpoints/Tidings-Endpoint-Run.js'),
 			// Get a staged Report File
 			ReportFile: require('./endpoints/Tidings-Endpoint-File.js'),
+			// Get a staged Report asset file
+			ReportAssetFile: require('./endpoints/Tidings-Endpoint-AssetFile.js'),
 			// Get the default Report File
 			ReportDefaultFile: require('./endpoints/Tidings-Endpoint-DefaultFile.js'),
 			// Get a staged Report Common File
@@ -180,6 +182,7 @@ var Tidings = function()
 			pRestServer.get(tmpReportRoot+'/Manifest/:UUID', wireTidings, _Endpoints.ReportManifest);
 			pRestServer.get(tmpReportRoot+'/Datum/:UUID', wireTidings, _Endpoints.ReportData);
 			pRestServer.get(tmpReportRoot+'/:UUID/Default', wireTidings, _Endpoints.ReportDefaultFile);
+			pRestServer.get(tmpReportRoot+'/:UUID/Assets/:FileName', wireTidings, _Endpoints.ReportAssetFile);
 			pRestServer.get(tmpReportRoot+'/:UUID/:FileName', wireTidings, _Endpoints.ReportFile);
 			pRestServer.get(tmpReportRoot+'/Run/:ReportType/:FileName', wireTidings, _Endpoints.ReportCommonFile);
 			pRestServer.get(tmpReportRoot+'/:UUID/:ReportType/:FileName', wireTidings, _Endpoints.ReportCommonFile);
