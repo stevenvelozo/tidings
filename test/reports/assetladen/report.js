@@ -117,5 +117,14 @@ module.exports = (
 	{
 		pState.Behaviors.stateLog(pState, 'This is really rasterizey...');
 		fCallback(false, pState);
+	},
+
+	
+	postRender: (pState, fCallback) =>
+	{
+		// Call this to delete assets after render.
+		pState.Behaviors.deleteAssets(pState,fCallback);
+		// Or this to keep them.
+		//fCallback(false, pState);
 	}
 });

@@ -58,15 +58,19 @@ module.exports = (pTaskData, pState, fCallback) =>
 		}
 	);
 
+	// Load settings from the scratch state if they are there (so reports can pass them in)
+	var tmpWKHTMLtoPDFSettings = (typeof(pState.Scratch.WKHTMLtoPDFSettings) !== 'undefined') ? pState.Scratch.WKHTMLtoPDFSettings : {};
+	// Some default settings
+	if (!tmpWKHTMLtoPDFSettings.hasOwnProperty('pageSize'))
+		tmpWKHTMLtoPDFSettings.pageSize = 'letter';
+	if (!tmpWKHTMLtoPDFSettings.hasOwnProperty('print-media-type'))
+		tmpWKHTMLtoPDFSettings['print-media-type'] = true;
+
 	// Actually run the PDF generator (this requires the server to be running)
 	try
 	{
-		libWkhtmltopdf(pState.Fable.settings.Tidings.TidingsServerAddress+'/1.0/Report/'+pState.Manifest.Metadata.GUIDReportDescription+'/'+tmpFileName,
-			{
-				pageSize: 'letter',
-				'print-media-type': true
-			}
-		).pipe(tmpOutputStream);
+		libWkhtmltopdf(pState.Fable.settings.Tidings.TidingsServerAddress+'/1.0/Report/'+pState.Manifest.Metadata.GUIDReportDescription+'/'+tmpFileName, tmpWKHTMLtoPDFSettings)
+			.pipe(tmpOutputStream);
 	}
 	catch (pError)
 	{

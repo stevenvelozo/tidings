@@ -668,3 +668,16 @@ or simply:
     "Renderer": "html"
 }
 ```
+
+# Recipes for the `report.js` File:
+
+## Add a Post-Render step to delete all assets that were collected during rendering:
+```
+postRender: (pState, fCallback) =>
+{
+	// Call this to delete assets after render.
+	pState.Behaviors.deleteAssets(pState,fCallback);
+	// Or this to keep them.
+	//fCallback(false, pState);
+}
+```

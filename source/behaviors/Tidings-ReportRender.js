@@ -44,6 +44,7 @@ module.exports = (pDatum, pFable, fCallback) =>
 			setProgressPercentage: loadReportBehavior('setProgressPercentage'),
 
 			downloadAsset: loadReportBehavior('downloadAsset'),
+			deleteAssets: loadReportBehavior('deleteAssets'),
 
 			// These are for extra sugar in the reports override functions
 			parseReportPath: loadReportBehavior('parseReportPath'),
