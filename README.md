@@ -634,6 +634,16 @@ There are many kinds of paths which can be defined in the Templates array of a r
 
 Further, there is a macro expansion that happens for a Path property of templates.  For instance, you could have `{ Path:'Stage', File:'MyReport.html' }` and Tidings will automatically expand the `Stage` value to be the folder that is defined as such in the `Locations` section of the Manifest Metadata.
 
+# Template Debugging
+
+Underscore / lodash templates are annoying to debug.  Adding this line to your fable configuration calls an explicit `debugger` command to break at the exact point a template has failed.
+
+```
+{
+    "TidingsDebug":true
+}
+```
+
 ## Single Template File
 
 ```

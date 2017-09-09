@@ -19,6 +19,7 @@ var defaultReportDatum =
 
 var fableConfig = 
 {
+    "TidingsDebug":true,
 	Tidings:
 	{	// Use the reports defined in the unit test.
 		ReportDefinitionFolder: `${__dirname}/../test/reports/`,

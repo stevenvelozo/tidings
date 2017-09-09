@@ -23,6 +23,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 			// We shouldn't bail out because one template didn't load so don't alter the callback.
 			if (pReadError)
 			{
+				if (pState.Fable.TidingsDebug) debugger;
 				pState.Behaviors.stateLog(pState, 'Error loading template: '+JSON.stringify(pTaskData)+' '+pReadError, true);
 				return fCallback();
 			}
@@ -42,6 +43,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 					{
 						// Uh-oh!  The user has an error in their template.
 						pState.Behaviors.stateLog(pState, 'Error parsing template: '+pTemplateParsingError, true);
+						if (pState.Fable.settings.TidingsDebug) debugger;
 						pState.Manifest.Errors.push(
 							{
 								Type:'Template Parsing Error',
@@ -61,6 +63,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 					catch(pTemplateExecutionError)
 					{
 						// Uh-oh!  The user has an error executing their template.  Most likely it expects data in the datum that doesn't exist.
+						if (pState.Fable.TidingsDebug) debugger;
 						pState.Behaviors.stateLog(pState, 'Error executing template: '+pTemplateExecutionError, true);
 					}
 
