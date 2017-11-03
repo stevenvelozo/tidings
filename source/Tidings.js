@@ -50,6 +50,7 @@ var Tidings = function()
 		_Libraries.Moment = require('moment-timezone');
 		_Libraries.BigNumber = require('bignumber.js');
 		_Libraries.Cheerio = require('cheerio');
+		_Libraries.Request = require('request');
 		var libChance = require('chance');
 		_Libraries.Chance = new libChance();
 
