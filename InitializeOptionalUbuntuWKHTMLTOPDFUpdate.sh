@@ -20,7 +20,10 @@ echo "-> Uncompressing wkhtmltopdf 0.12.4"
 tar xvf wkhtmltox-0.12.4_linux-generic-amd64.tar.xz
 echo ""
 
-echo "-> Copying updated binary to prebuilt node module"
+echo "-> Copying updated binary to prebuilt node module (for self-referenced libraries in the tidings folder)"
 cp wkhtmltox/bin/wkhtmltopdf ../node_modules/wkhtmltopdf-selfcontained/wkhtmltopdf-amd64
+
+echo "-> Copying updated binary to prebuilt node module (for peer-referenced libraries)"
+cp wkhtmltox/bin/wkhtmltopdf ../../wkhtmltopdf-selfcontained/wkhtmltopdf-amd64
 
 echo ""
