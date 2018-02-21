@@ -58,6 +58,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 		}
 	);
 
+	process.env["LC_ALL"] = 'C';
 	// Load settings from the scratch state if they are there (so reports can pass them in)
 	var tmpWKHTMLtoPDFSettings = (typeof(pState.Scratch.WKHTMLtoPDFSettings) !== 'undefined') ? pState.Scratch.WKHTMLtoPDFSettings : {};
 	// Some default settings
