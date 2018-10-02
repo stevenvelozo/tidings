@@ -150,6 +150,8 @@ var Tidings = function()
 		{
 			// Start the Report Rendering Asynchronously
 			ReportRender: require('./endpoints/Tidings-Endpoint-Render.js'),
+			// Start the Report Rendering Synchronously
+			ReportRenderSync: require('./endpoints/Tidings-Endpoint-RenderSync.js'),
 			// Run the Report Synchronously
 			ReportRun: require('./endpoints/Tidings-Endpoint-Run.js'),
 			// Get a staged Report File
@@ -179,6 +181,7 @@ var Tidings = function()
 			_Fable.log.trace('Creating report endpoints', {Root:tmpReportRoot});
 
 			pRestServer.post(tmpReportRoot, wireTidings, _Endpoints.ReportRender);
+			pRestServer.post(tmpReportRoot+'Sync', wireTidings, _Endpoints.ReportRender);
 			pRestServer.post(tmpReportRoot+'/Run/Wait', wireTidings, _Endpoints.ReportRun);
 			pRestServer.get(tmpReportRoot+'/Manifest/:UUID', wireTidings, _Endpoints.ReportManifest);
 			pRestServer.get(tmpReportRoot+'/Datum/:UUID', wireTidings, _Endpoints.ReportData);
