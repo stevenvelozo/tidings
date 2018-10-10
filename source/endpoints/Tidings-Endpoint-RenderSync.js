@@ -19,7 +19,7 @@ module.exports = (pRequest, pResponse, fNext) =>
 		return pRequest.Tidings.commonservices.sendCodedError('Error Rendering Report: invalid Datum', {}, pRequest, pResponse, fNext);
 	}
 
-	pRequest.Tidings.commonservices.log.info('Starting to render a report');
+	pRequest.Tidings.commonservices.log.info('Starting to render a report (sync)');
 	var tmpReportGUID = pRequest.Tidings.render(pRequest.Datum,
 		(pError)=>
 		{
