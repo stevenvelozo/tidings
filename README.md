@@ -691,3 +691,7 @@ postRender: (pState, fCallback) =>
 	//fCallback(false, pState);
 }
 ```
+
+# Other Resources to look into:
+
+Muze allows interactive data dashboards: https://www.charts.com/muze

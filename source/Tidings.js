@@ -181,7 +181,7 @@ var Tidings = function()
 			_Fable.log.trace('Creating report endpoints', {Root:tmpReportRoot});
 
 			pRestServer.post(tmpReportRoot, wireTidings, _Endpoints.ReportRender);
-			pRestServer.post(tmpReportRoot+'Sync', wireTidings, _Endpoints.ReportRender);
+			pRestServer.post(tmpReportRoot+'Sync', wireTidings, _Endpoints.ReportRenderSync);
 			pRestServer.post(tmpReportRoot+'/Run/Wait', wireTidings, _Endpoints.ReportRun);
 			pRestServer.get(tmpReportRoot+'/Manifest/:UUID', wireTidings, _Endpoints.ReportManifest);
 			pRestServer.get(tmpReportRoot+'/Datum/:UUID', wireTidings, _Endpoints.ReportData);

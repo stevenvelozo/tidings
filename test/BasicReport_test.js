@@ -30,6 +30,8 @@ var Expect = Chai.expect;
 
 var libFable = require('fable').new(fableConfig);
 var libTidings = require('../source/Tidings.js');
+var libRequest = require('request');
+
 
 var GLOBAL_REPORT_HASH = false;
 var GLOBAL_DELETE_REPORT_HASH = false;
@@ -78,7 +80,7 @@ suite
 							}
 						);
 					}
-				);
+				).timeout(9910000);
 				test
 				(
 					'get report datum',
@@ -129,6 +131,36 @@ suite
 						);
 					}
 				);
+				test
+				(
+					'request a report from the server',
+					(fdone)=>
+					{
+						var testTidings = libTidings.new(libFable);
+						var _Orator = testTidings.Orator();
+						testTidings.connectRoutes(_Orator.webServer);
+						testTidings.connectOutputRoutes(_Orator);
+						testTidings.connectDefinitionRoutes(_Orator);
+						_Orator.startWebServer(()=>
+							{
+								libRequest(
+									{
+										method:  'POST',
+										url:     'http://localhost:8080/1.0/ReportSync',
+										json:    {TidingsData:{Type:'assetladen'}, Name: "Billy Corgan"}
+									},
+								(pError, pResponse, pBody)=>
+								{
+									Expect(pBody).to.be.an('object');
+									Expect(pBody.GUIDReportDescription).to.be.a('string');
+									Expect(pBody.Error).to.equal(undefined);
+									fdone();
+								});
+							}
+						);
+					}
+				// Change the test timeout to 10 seconds for slow docker containers running unit tests
+				).timeout(9910000);
 			}
 		);
 	}

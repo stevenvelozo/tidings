@@ -34,6 +34,7 @@ var fableConfig =
 
 var libFable = require('fable').new(fableConfig);
 var libTidings = require(__dirname+'/../source/Tidings.js').new(libFable);
+var libRequest = require('request');
 
 var _Orator = libTidings.Orator();
 libTidings.connectRoutes(_Orator.webServer);
@@ -57,7 +58,17 @@ _Orator.startWebServer(()=>
 							}
 						);
 				});
-			
+
+				libRequest(
+					{
+						method:  'POST',
+						url:     'http://localhost:8080/1.0/ReportSync',
+						json:    {TidingsData:{Type:'assetladen', Renderer:'pdf'}, Name: "Billy Corgan"}
+					},
+				(pError, pResponse, pBody)=>
+				{
+						console.log(pBody);
+				});			
 			libFable.log.info('Rendering report GUID '+tmpReportGUID);
 		}
 	}

@@ -10,14 +10,22 @@ var libPath = require('path');
 var recurseFiles = (pPath, pState, fRecursionComplete, pPathRoot) =>
 {
 	var tmpPathRoot = (typeof(pPathRoot) === 'undefined') ? pPath : pPathRoot;
+	var tmpNormalizedPath = libPath.normalize(tmpPathRoot);
 
-	libFS.readdir(pPath,
+	libFS.readdir(tmpNormalizedPath,
 		(pError, pFiles) => 
 		{
-			if (pError)
+			if (pError && pError.code == 'ENOENT')
 			{
-			  console.log('Error: '+pError);
-			  return;
+				pState.Behaviors.stateLog(pState, 'Warning: Template path ['+tmpNormalizedPath+'] does not exist; most likely there is no folder for the current renderer.');
+				pState.Behaviors.stateLog(pState, 'Warning FS Error Message: '+pError);
+				return fRecursionComplete();
+			}
+			else if (pError)
+			{
+				pState.Behaviors.stateLog(pState, 'Error: Template scanning of path ['+tmpNormalizedPath+'] failed.');
+				pState.Behaviors.stateLog(pState, 'FS Error Message: '+pError);
+				return fRecursionComplete();
 			}
 
 			// Parse each template entry and explode them if they are wildcards

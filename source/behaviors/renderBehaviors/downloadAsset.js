@@ -16,7 +16,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 	// If no path was supplied, use the Asset path
 	if (!pTaskData.hasOwnProperty('Path') || !pTaskData.Path)
 		pTaskData.Path = 'Asset';
-		
+
 	libRequest.head(pTaskData.URL,
 		(pRequestError, pResponse, pBody)=>
 		{
@@ -26,11 +26,15 @@ module.exports = (pTaskData, pState, fCallback) =>
 				pState.Behaviors.stateLog(pState, 'Error downloading asset: '+JSON.stringify(pTaskData)+' '+pRequestError, true);
 				return fCallback();
 			}
+			if (typeof(pBody) === 'undefined')
+			{
+				pState.Behaviors.stateLog(pState, 'Error downloading asset: '+JSON.stringify(pTaskData)+' ... body is undefined!', true);
+				return fCallback();
+			}
 			console.log('content-type:', pResponse.headers['content-type']);
 			console.log('content-length:', pResponse.headers['content-length']);
 			
 			pTaskData.Size = parseInt(pResponse.headers['content-length'],10);
-
 			pTaskData.RequestEndTime = +new Date();
 			
 			pState.Behaviors.getReportFileStream(pState, pBody, pTaskData.Path, tmpFileName, 
