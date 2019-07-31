@@ -17,7 +17,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 	if (!pTaskData.hasOwnProperty('Path') || !pTaskData.Path)
 		pTaskData.Path = 'Asset';
 
-	libRequest.head(pTaskData.URL,
+	libRequest.head({url: pTaskData.URL, jar: pState.jar},
 		(pRequestError, pResponse, pBody)=>
 		{
 			// We shouldn't bail out because one asset didn't download so don't alter the callback.
@@ -40,7 +40,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 			pState.Behaviors.getReportFileStream(pState, pBody, pTaskData.Path, tmpFileName, 
 				(pError, pFileStream)=>
 				{
-					libRequest(pTaskData.URL).pipe(pFileStream).on('close', ()=>
+					libRequest({url: pTaskData.URL, jar: pState.jar}).pipe(pFileStream).on('close', ()=>
 					{
 						pTaskData.PersistCompletionTime = +new Date();
 						pTaskData.TotalDownloadTime = pTaskData.PersistCompletionTime - pTaskData.RequestStartTime;
