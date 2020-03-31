@@ -23,7 +23,7 @@ This has to happen before you execute the Tidings application.  This is a limita
 
  */
 // This is so we don't have a dependency on that library outright for our reporting module (when the usual case is to just use html)
-var libWkhtmltopdf = require('wkhtmltopdf-selfcontained');
+var libWkhtmltopdf = require('wkhtmltopdf');
 var libFS = require('fs');
 
 module.exports = (pTaskData, pState, fCallback) =>
