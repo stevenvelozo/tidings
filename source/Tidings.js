@@ -28,7 +28,8 @@ var Tidings = function()
 			_Fable.settings.Tidings = (
 				{
 					"ReportDefinitionFolder": `${__dirname}/../../../reports/`,
-					"ReportOutputFolder": `${__dirname}/../../../stage/`
+					"ReportOutputFolder": `${__dirname}/../../../stage/`,
+					"GlobalAssetFolder": `${__dirname}/../../../global/`
 				}
 			);
 
@@ -166,6 +167,8 @@ var Tidings = function()
 			ReportData: require('./endpoints/Tidings-Endpoint-Data.js'),
 		    // Get the Report Manifest
 			ReportManifest: require('./endpoints/Tidings-Endpoint-Manifest.js'),
+			// Get one of the global asset files
+			ReportGlobalFile: require('./endpoints/Tidings-Endpoint-GlobalFile.js')
 		});
 
 		/**
@@ -187,6 +190,7 @@ var Tidings = function()
 			pRestServer.get(tmpReportRoot+'/Datum/:UUID', wireTidings, _Endpoints.ReportData);
 			pRestServer.get(tmpReportRoot+'/:UUID/Default', wireTidings, _Endpoints.ReportDefaultFile);
 			pRestServer.get(tmpReportRoot+'/:UUID/Assets/:FileName', wireTidings, _Endpoints.ReportAssetFile);
+			pRestServer.get(new RegExp(tmpReportRoot+'/Global/(.*)'), wireTidings, _Endpoints.ReportGlobalFile);
 			pRestServer.get(tmpReportRoot+'/:UUID/:FileName', wireTidings, _Endpoints.ReportFile);
 			pRestServer.get(tmpReportRoot+'/Run/:ReportType/:FileName', wireTidings, _Endpoints.ReportCommonFile);
 			pRestServer.get(tmpReportRoot+'/:UUID/:ReportType/:FileName', wireTidings, _Endpoints.ReportCommonFile);
