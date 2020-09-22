@@ -166,9 +166,7 @@ var Tidings = function()
 		    // Get the Report Data
 			ReportData: require('./endpoints/Tidings-Endpoint-Data.js'),
 		    // Get the Report Manifest
-			ReportManifest: require('./endpoints/Tidings-Endpoint-Manifest.js'),
-			// Get one of the global asset files
-			ReportGlobalFile: require('./endpoints/Tidings-Endpoint-GlobalFile.js')
+			ReportManifest: require('./endpoints/Tidings-Endpoint-Manifest.js')
 		});
 
 		/**
@@ -190,10 +188,12 @@ var Tidings = function()
 			pRestServer.get(tmpReportRoot+'/Datum/:UUID', wireTidings, _Endpoints.ReportData);
 			pRestServer.get(tmpReportRoot+'/:UUID/Default', wireTidings, _Endpoints.ReportDefaultFile);
 			pRestServer.get(tmpReportRoot+'/:UUID/Assets/:FileName', wireTidings, _Endpoints.ReportAssetFile);
-			pRestServer.get(new RegExp(tmpReportRoot+'/Global/(.*)'), wireTidings, _Endpoints.ReportGlobalFile);
 			pRestServer.get(tmpReportRoot+'/:UUID/:FileName', wireTidings, _Endpoints.ReportFile);
 			pRestServer.get(tmpReportRoot+'/Run/:ReportType/:FileName', wireTidings, _Endpoints.ReportCommonFile);
 			pRestServer.get(tmpReportRoot+'/:UUID/:ReportType/:FileName', wireTidings, _Endpoints.ReportCommonFile);
+			// This is too inclusive
+			var tmpGlobalRegexp = /\/.*/;
+			pRestServer.get(tmpGlobalRegexp, wireTidings, _Endpoints.ReportCommonFile);
 		};
 
 		var _Orator = false;
