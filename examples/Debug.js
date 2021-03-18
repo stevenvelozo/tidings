@@ -23,7 +23,8 @@ var fableConfig =
 	Tidings:
 	{	// Use the reports defined in the unit test.
 		ReportDefinitionFolder: `${__dirname}/../test/reports/`,
-		ReportOutputFolder: `${__dirname}/../stage/`
+		ReportOutputFolder: `${__dirname}/../stage/`,
+		GlobalAssetFolder: `${__dirname}/../global/`
 	},
 	LogStreams:
 	[

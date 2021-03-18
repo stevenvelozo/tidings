@@ -106,6 +106,7 @@ module.exports = new function()
 
 			// Restify body parser passed through, for any POST and PUT requests
 			bodyParser: libRestify.bodyParser,
+			serveStatic: libRestify.serveStatic,
 
 			new: createNew
 		});

@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "async": "^2.1.2",
-    "csv-parse": "^1.1.7",
+    "csv-parse": "^4.6.5",
     "fable": "^1.0.1",
     "line-by-line": "^0.1.5",
     "quantifier": "^1.0.3",

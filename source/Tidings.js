@@ -28,7 +28,8 @@ var Tidings = function()
 			_Fable.settings.Tidings = (
 				{
 					"ReportDefinitionFolder": `${__dirname}/../../../reports/`,
-					"ReportOutputFolder": `${__dirname}/../../../stage/`
+					"ReportOutputFolder": `${__dirname}/../../../stage/`,
+					"GlobalAssetFolder": `${__dirname}/../../../global/`
 				}
 			);
 
@@ -165,7 +166,7 @@ var Tidings = function()
 		    // Get the Report Data
 			ReportData: require('./endpoints/Tidings-Endpoint-Data.js'),
 		    // Get the Report Manifest
-			ReportManifest: require('./endpoints/Tidings-Endpoint-Manifest.js'),
+			ReportManifest: require('./endpoints/Tidings-Endpoint-Manifest.js')
 		});
 
 		/**
@@ -190,6 +191,9 @@ var Tidings = function()
 			pRestServer.get(tmpReportRoot+'/:UUID/:FileName', wireTidings, _Endpoints.ReportFile);
 			pRestServer.get(tmpReportRoot+'/Run/:ReportType/:FileName', wireTidings, _Endpoints.ReportCommonFile);
 			pRestServer.get(tmpReportRoot+'/:UUID/:ReportType/:FileName', wireTidings, _Endpoints.ReportCommonFile);
+			// This is too inclusive
+			var tmpGlobalRegexp = /\/.*/;
+			pRestServer.get(tmpGlobalRegexp, wireTidings, _Endpoints.ReportCommonFile);
 		};
 
 		var _Orator = false;
