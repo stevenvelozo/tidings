@@ -15,7 +15,7 @@ npm install @ffmpeg-installer/ffmpeg fluent-ffmpeg @ffprobe-installer/ffprobe
 chmod +x node_modules/@ffprobe-installer/ffprobe/node_modules/@ffprobe-installer/linux-x64/ffprobe
 
 echo "-> WKHTMLTOPDF"
-npm install wkhtmltopdf-selfcontained
+npm install wkhtmltopdf
 
-echo "-> PhantomJS"
-npm install phantomjs-prebuilt phantom-html-to-pdf
+#echo "-> PhantomJS"
+#npm install phantomjs-prebuilt phantom-html-to-pdf
