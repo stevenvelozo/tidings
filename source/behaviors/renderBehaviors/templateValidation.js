@@ -11,64 +11,66 @@
 
 module.exports = (pTemplateString) =>
 {
-	var tmpValidationResult = 
+	const tmpValidationResult =
+	{
+		Enclosures:
 		{
-			Enclosures:
-				{
-					Type: 'Expression',
-					Left: /\<\%/g,
-					LeftCount: 0,
-					Right: /\%\>/g,
-					RightCount: 0,
-				},
-			CodePositions: {},
-			Warnings: []
-		};
-	var tmpEnclosures = tmpValidationResult.Enclosures;
-	
-	var pMatch = false;
+			Type: 'Expression',
+			Left: /\<\%/g,
+			LeftCount: 0,
+			Right: /\%\>/g,
+			RightCount: 0,
+		},
+		CodePositions: {},
+		Warnings: [],
+	};
+	const tmpEnclosures = tmpValidationResult.Enclosures;
+
+	let pMatch = false;
 	while ((pMatch = tmpEnclosures.Left.exec(pTemplateString)) != null)
 	{
-	    tmpValidationResult.CodePositions[pMatch.index] = 'Left';
-	    tmpEnclosures.LeftCount++;
+		tmpValidationResult.CodePositions[pMatch.index] = 'Left';
+		tmpEnclosures.LeftCount++;
 	}
 	while ((pMatch = tmpEnclosures.Right.exec(pTemplateString)) != null)
 	{
-	    tmpValidationResult.CodePositions[pMatch.index] = 'Right';
-	    tmpEnclosures.RightCount++;
+		tmpValidationResult.CodePositions[pMatch.index] = 'Right';
+		tmpEnclosures.RightCount++;
 	}
 
 	// Now match enclosure counts and ensure there is balance
 	tmpValidationResult.EnclosureBalance = (tmpEnclosures.RightCount - tmpEnclosures.LeftCount);
-	
+
 	if (tmpValidationResult.EnclosureBalance != 0)
 	{
 		tmpValidationResult.Warnings.push('Enclosures out of balance!  This will almost definitely break your template.');
 	}
 
 	// Walk through the enclosure list and see if we have two of either type right next to each other or other problems
-	var tmpLastDemarc = false;
-	for (var tmpDemarcString in tmpValidationResult.CodePositions)
+	let tmpLastDemarc = false;
+	for (let tmpDemarcString in tmpValidationResult.CodePositions)
 	{
 		// Yay for javascript object names being strings
-		var tmpDemarc = parseInt(tmpDemarcString);
+		const tmpDemarc = parseInt(tmpDemarcString);
 		// Two next to each other should never match
 		if (tmpValidationResult.CodePositions[tmpDemarc] == tmpValidationResult.CodePositions[tmpLastDemarc])
 		{
-			tmpValidationResult.Warnings.push('Enclosure at character '+tmpLastDemarc+' (ending at '+tmpDemarc+') not properly balanced!');
+			tmpValidationResult.Warnings.push('Enclosure at character ' + tmpLastDemarc + ' (ending at ' + tmpDemarc + ') not properly balanced!');
 			if (tmpDemarc - tmpLastDemarc < 150)
 			{
-				var tmpEnd = tmpDemarc;
+				let tmpEnd = tmpDemarc;
 				if (pTemplateString.length >= tmpEnd + 2)
-					tmpEnd +=2;
-				tmpValidationResult.Warnings.push('Code between '+tmpLastDemarc+' and '+tmpEnd+': '+pTemplateString.substring(tmpLastDemarc, tmpEnd));
+					tmpEnd += 2;
+				tmpValidationResult.Warnings.push('Code between ' + tmpLastDemarc + ' and ' + tmpEnd + ': ' + pTemplateString.substring(tmpLastDemarc, tmpEnd));
 			}
 		}
 
 		if (!tmpLastDemarc && (tmpValidationResult.CodePositions[tmpDemarc] == 'Right'))
-			tmpValidationResult.Warnings.push('Enclosure at character '+tmpLastDemarc+' is a closing bracket but this is the first one in the template!');
+		{
+			tmpValidationResult.Warnings.push('Enclosure at character ' + tmpLastDemarc + ' is a closing bracket but this is the first one in the template!');
+		}
 		tmpLastDemarc = tmpDemarc;
 	}
-	
+
 	return tmpValidationResult;
 };

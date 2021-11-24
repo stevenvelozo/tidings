@@ -18,34 +18,39 @@ libFFMPEG.setFfprobePath(libFFProbePath);
 
 module.exports = (pTaskData, pState, fCallback) =>
 {
-	var tmpFileName = pTaskData.File;
+	const tmpFileName = pTaskData.File;
 
 	// If no path was supplied, use the Stage path
 	if (!pTaskData.Path)
+	{
 		pTaskData.Path = pState.Manifest.Metadata.Locations.Stage;
-	
-	if (!pTaskData.OutputPath)
-		pTaskData.OutputPath = pState.Manifest.Metadata.Locations.Stage;
+	}
 
-	var tmpFFMPEGOptions = (
-		{
-			folder: pTaskData.OutputPath
-		}
-	);
-	
+	if (!pTaskData.OutputPath)
+	{
+		pTaskData.OutputPath = pState.Manifest.Metadata.Locations.Stage;
+	}
+
+	let tmpFFMPEGOptions = (
+	{
+		folder: pTaskData.OutputPath
+	});
+
 	if ((typeof(pTaskData.Options) === 'object') && (typeof(pTaskData.Options.Configuration) === 'object'))
+	{
 		tmpFFMPEGOptions = pState.Libraries.Underscore.extend(tmpFFMPEGOptions, pTaskData.Options.Configuration);
-	
-	libFFMPEG(pTaskData.Path+tmpFileName)
-		.on('filenames', (pFileNames)=>
+	}
+
+	libFFMPEG(pTaskData.Path + tmpFileName)
+		.on('filenames', (pFileNames) =>
 		{
 			console.log('Will generate ' + pFileNames.join(', '));
 		})
-		.on('error', (pError)=>
+		.on('error', (pError) =>
 		{
-			pState.Behaviors.stateLog(pState, 'Error executing FFMPEG '+JSON.stringify(pTaskData)+': '+pError, true);
+			pState.Behaviors.stateLog(pState, 'Error executing FFMPEG ' + JSON.stringify(pTaskData) + ': ' + pError, true);
 		})
-		.on('end', ()=>
+		.on('end', () =>
 		{
 			fCallback(null, pState);
 		})[pTaskData.Options.Method](tmpFFMPEGOptions);

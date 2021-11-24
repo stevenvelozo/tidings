@@ -3,11 +3,11 @@
 * @license MIT
 * @author <steven@velozo.com>
 */
-var libUnderscore = require('underscore');
+const libUnderscore = require('underscore');
 
 /**
 * Tidings Report Manifest Creation and Data Management
-* 
+*
 * Creates a raw manifest object, for use whenever a new report is created.
 *
 * @class ReportManifestManagement
@@ -23,23 +23,23 @@ module.exports = new function()
 			return {new: createNew};
 		}
 
-		var _Fable = pFable;
+		const _Fable = pFable;
 
 		// This is the manifest base object, which is maintained by the library
-		var _ManifestBase = require('./Tidings-ReportManifest.json');
+		const _ManifestBase = require('./Tidings-ReportManifest.json');
 
 		// The manifest override is a setting that can be created by putting it into fable settings, for the engine to merge in
-		var _ManifestOverride = (typeof(_Fable.settings.TidingsManifestOverride) === 'object') ? _Fable.settings.TidingsManifestOverride : {};
+		const _ManifestOverride = (typeof(_Fable.settings.TidingsManifestOverride) === 'object') ? _Fable.settings.TidingsManifestOverride : {};
 
 		/**
 		 * Create a manifest object for use on a new report
 		 *
 		 * @method create
 		 */
-		var create = (pDatum) =>
+		const create = (pDatum) =>
 		{
 			// This creates a new manifest, prioritizing what is passed in, then the override from config, then base.
-			var tmpManifest = libUnderscore.extend(
+			const tmpManifest = libUnderscore.extend(
 									{}, // The new object
 									JSON.parse(JSON.stringify(_ManifestBase)), // The base from the Tidings Module
 									JSON.parse(JSON.stringify(_ManifestOverride)));
@@ -49,7 +49,7 @@ module.exports = new function()
 
 			// On testing and reflection, having this separated from the manifest is a better idea.
 			//tmpManifest.Datum = typeof(pDatum) === 'object' ? pDatum : {}; // Whatever was passed in
-			
+
 			// Now assign the GUID
 			tmpManifest.Metadata.GUIDReportDescription = pDatum.TidingsData.GUIDReportDescription;
 
@@ -68,11 +68,11 @@ module.exports = new function()
 			return tmpManifest;
 		};
 
-		var tmpReportManifestManagement = (
+		const tmpReportManifestManagement = (
 		{
 			create: create,
 
-			new: createNew
+			new: createNew,
 		});
 
 		return tmpReportManifestManagement;

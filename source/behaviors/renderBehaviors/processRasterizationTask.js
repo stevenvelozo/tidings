@@ -26,28 +26,28 @@
 				Method: 'fnExtractFrameToJPG',
 				Configuration:
 				{
-				    timestamps: [30.5, '50%', '01:10.123'],
-				    filename: 'thumbnail-at-%s-seconds.png'
-				    size: '320x240'
+					timestamps: [30.5, '50%', '01:10.123'],
+					filename: 'thumbnail-at-%s-seconds.png'
+					size: '320x240'
 				}
 		}
    }
-   
+
    Notice the Options.  This tells the FFMPEG rasterizer some parameters, which it uses to do this (cribbed from the docs at https://www.npmjs.com/package/fluent-ffmpeg)
 	ffmpeg('/path/to/Stage/video.avi')
 	  .screenshots({
-	    timestamps: [30.5, '50%', '01:10.123'],
-	    filename: 'thumbnail-at-%s-seconds.png',
-	    folder: '/path/to/Stage',
-	    size: '320x240'
+		timestamps: [30.5, '50%', '01:10.123'],
+		filename: 'thumbnail-at-%s-seconds.png',
+		folder: '/path/to/Stage',
+		size: '320x240'
 	  });
 
    You can also supply InputPath and OutputPath, but if you don't it defaults to Stage for both (we assume the .tex or .html input file was dynamically generated)
-   
+
    Valid rasterizers: LaTeX, WKHTMLTOPDF, PhantomJS, ImageMagick, FFMPEG
-   
+
    This means you can do things like transcode video or render image versions of graphs.
-   
+
    For instance you could create a YearGraph.html file that only displays a bar chart, then PhantomJS it to an image, then ImageMagick some text over it, then use it in your final report.
  */
 
@@ -57,28 +57,28 @@ module.exports = (pTaskData, pState, fCallback) =>
 	try
 	{
 		pTaskData.RasterizeStartTime = +new Date();
-		var tmpRasterizer = require('../renderRasterizers/rasterize'+pTaskData.Rasterizer+'.js');
-		
+		const tmpRasterizer = require('../renderRasterizers/rasterize' + pTaskData.Rasterizer + '.js');
+
 		// Check if the Path is set to one of the constants (this lets you set a Path of something like "Stage" or "Common" etc.)
 		pTaskData.Path = pState.Behaviors.parseReportPath(pTaskData.Path, pState);
 
-		tmpRasterizer(pTaskData, pState, 
-			(pError, pState)=>
+		tmpRasterizer(pTaskData, pState,
+			(pError, pState) =>
 			{
 				pTaskData.RasterizeEndTime = +new Date();
 				pTaskData.TotalRasterizeTime = pTaskData.RasterizeEndTime - pTaskData.RasterizeStartTime;
 				if (pError)
 				{
-					pState.Behaviors.stateLog(pState, 'Error executing auto rasterizer ['+pTaskData.Rasterizer+']: '+pError, true);
+					pState.Behaviors.stateLog(pState, 'Error executing auto rasterizer [' + pTaskData.Rasterizer + ']: ' + pError, true);
 					return fCallback(null, pState);
 				}
-				
+
 				return fCallback(null, pState);
 			});
 	}
 	catch (pError)
 	{
-		pState.Behaviors.stateLog(pState, 'Error loading auto rasterizer ['+pTaskData.Rasterizer+']: '+pError, true);
+		pState.Behaviors.stateLog(pState, 'Error loading auto rasterizer [' + pTaskData.Rasterizer + ']: ' + pError, true);
 		fCallback(null, pState);
 	}
 };

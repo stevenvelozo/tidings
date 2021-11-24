@@ -7,5 +7,5 @@
 // Log something to the manifest (not fable though)
 module.exports = (pManifest, pLogEntry, pIsError) =>
 {
-	pManifest.Log.push(new Date().toUTCString()+': '+pLogEntry);
+	pManifest.Log.push(new Date().toUTCString() + ': ' + pLogEntry);
 };

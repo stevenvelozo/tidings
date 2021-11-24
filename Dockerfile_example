@@ -1,12 +1,10 @@
-FROM ubuntu:trusty
+FROM ubuntu:focal
 MAINTAINER Steven Velozo <steven@velozo.com>
 
 # Prepare APT
 ENV DEBIAN_FRONTEND noninteractive
 # Install node.js
-RUN apt-get update && apt-get install -y curl git
-RUN curl --silent --location https://deb.nodesource.com/setup_6.x | sudo bash -
-RUN apt-get install --yes nodejs
+RUN apt update && apt install -y curl git sudo wkhtmltopdf && curl --silent --location https://deb.nodesource.com/setup_12.x | sudo bash - && apt install --yes nodejs && rm -rf /var/lib/apt/lists/*
 
 ADD . /tidings
 WORKDIR /tidings

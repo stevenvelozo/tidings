@@ -7,11 +7,13 @@
 module.exports = (pState, pPercentage, fCallback) =>
 {
 	if (pPercentage <= pState.Manifest.Status.CompletionProgress)
-		return fCallback(false, pState);
+	{
+		return fCallback(null, pState);
+	}
 
 	pState.Manifest.Status.CompletionProgress = pPercentage;
 
-	//pState.Behaviors.stateLog(pState.Manifest.Status.CompletionProgress+'%');
+	//pState.Behaviors.stateLog(pState.Manifest.Status.CompletionProgress + '%');
 
-	return fCallback(false, pState);
+	return fCallback(null, pState);
 };

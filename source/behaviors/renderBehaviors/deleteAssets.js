@@ -6,16 +6,18 @@
 
 module.exports = (pState, fCallback) =>
 {
-    var libDropbag = pState.Libraries.DropBag;
+	const libDropbag = pState.Libraries.DropBag;
 
 	pState.Behaviors.stateLog(pState, 'Cleaning up asset files...');
 	// Delete files from asset folder
 	libDropbag.deleteFolderRecursively({Path:pState.Manifest.Metadata.Locations.Asset},
-		(pError)=>
+		(pError) =>
 		{
 			if (pError)
+			{
 				pState.Behaviors.stateLog(pState, 'Error deleting asset files', true);
+			}
 
-			fCallback(false, pState);
+			fCallback(null, pState);
 		});
 };

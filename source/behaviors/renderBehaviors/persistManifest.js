@@ -11,11 +11,11 @@ module.exports = (pState, fStageComplete) =>
 	{
 		Data: JSON.stringify(pState.Manifest, null, 4),
 		File: 'Manifest.json',
-		Path: pState.Fable.settings.Tidings.ReportOutputFolder+pState.Manifest.Metadata.LocationHash
+		Path: pState.Fable.settings.Tidings.ReportOutputFolder + pState.Manifest.Metadata.LocationHash,
 	},
-	()=>
+	() =>
 	{
-		pState.Behaviors.stateLog(pState, '...persisted the Report Manifest for '+pState.Manifest.Metadata.LocationHash+' type '+pState.Manifest.Metadata.Type);
-		fStageComplete(false, pState);
+		pState.Behaviors.stateLog(pState, '...persisted the Report Manifest for ' + pState.Manifest.Metadata.LocationHash + ' type ' + pState.Manifest.Metadata.Type);
+		fStageComplete(null, pState);
 	});
 };

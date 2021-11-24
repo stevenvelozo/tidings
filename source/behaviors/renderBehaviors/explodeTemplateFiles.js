@@ -4,46 +4,50 @@
 * @author <steven@velozo.com>
 */
 
-var libFS = require('fs');
-var libPath = require('path');
+const libFS = require('fs');
+const libPath = require('path');
 
-var recurseFiles = (pPath, pState, fRecursionComplete, pPathRoot) =>
+const recurseFiles = (pPath, pState, fRecursionComplete, pPathRoot) =>
 {
-	var tmpPathRoot = (typeof(pPathRoot) === 'undefined') ? pPath : pPathRoot;
-	var tmpNormalizedPath = libPath.normalize(tmpPathRoot);
+	const tmpPathRoot = (typeof(pPathRoot) === 'undefined') ? pPath : pPathRoot;
+	const tmpNormalizedPath = libPath.normalize(tmpPathRoot);
 
 	libFS.readdir(tmpNormalizedPath,
-		(pError, pFiles) => 
+		(pError, pFiles) =>
 		{
 			if (pError && pError.code == 'ENOENT')
 			{
-				pState.Behaviors.stateLog(pState, 'Warning: Template path ['+tmpNormalizedPath+'] does not exist; most likely there is no folder for the current renderer.');
-				pState.Behaviors.stateLog(pState, 'Warning FS Error Message: '+pError);
+				pState.Behaviors.stateLog(pState, 'Warning: Template path [' + tmpNormalizedPath + '] does not exist; most likely there is no folder for the current renderer.');
+				pState.Behaviors.stateLog(pState, 'Warning FS Error Message: ' + pError);
 				return fRecursionComplete();
 			}
 			else if (pError)
 			{
-				pState.Behaviors.stateLog(pState, 'Error: Template scanning of path ['+tmpNormalizedPath+'] failed.');
-				pState.Behaviors.stateLog(pState, 'FS Error Message: '+pError);
+				pState.Behaviors.stateLog(pState, 'Error: Template scanning of path [' + tmpNormalizedPath + '] failed.');
+				pState.Behaviors.stateLog(pState, 'FS Error Message: ' + pError);
 				return fRecursionComplete();
 			}
 
 			// Parse each template entry and explode them if they are wildcards
-			var tmpQueue = pState.Fable.Tidings.libraries.Async.queue(
+			const tmpQueue = pState.Fable.Tidings.libraries.Async.queue(
 				(pFileName, fPhaseCallback) =>
 				{
 					libFS.stat(libPath.join(pPath, pFileName),
 						(pStatError, pFileStats) =>
 						{
 							if (pStatError)
+							{
 								return console.log('Error: ', pStatError);
+							}
 
 							if (pFileStats.isDirectory())
+							{
 								recurseFiles(libPath.join(pPath, pFileName), pState, fPhaseCallback, tmpPathRoot);
+							}
 							else
 							{
-								var tmpPathFragment = libPath.resolve(pPath).replace(libPath.resolve(tmpPathRoot), '');
-								pState.Manifest.Templates.push({File:pFileName, Path:pPath, OutputPath: libPath.join(pState.Manifest.Metadata.Locations.Stage,tmpPathFragment)});
+								const tmpPathFragment = libPath.resolve(pPath).replace(libPath.resolve(tmpPathRoot), '');
+								pState.Manifest.Templates.push({ File: pFileName, Path: pPath, OutputPath: libPath.join(pState.Manifest.Metadata.Locations.Stage, tmpPathFragment) });
 								fPhaseCallback();
 							}
 			  			}
@@ -51,11 +55,11 @@ var recurseFiles = (pPath, pState, fRecursionComplete, pPathRoot) =>
 				},
 				1
 			);
-			tmpQueue.drain = ()=>
+			tmpQueue.drain(() =>
 			{
 				fRecursionComplete(null);
-			};
-			tmpQueue.push(pFiles, ()=>{});
+			});
+			tmpQueue.push(pFiles, () => { });
 		}
 	);
 };
@@ -64,8 +68,8 @@ var recurseFiles = (pPath, pState, fRecursionComplete, pPathRoot) =>
 module.exports = (pState, fStageComplete) =>
 {
 	// Parse each template entry and explode them if they are wildcards
-	var tmpQueue = pState.Fable.Tidings.libraries.Async.queue(
-		(pTaskData, fPhaseCallback)=>
+	const tmpQueue = pState.Fable.Tidings.libraries.Async.queue(
+		(pTaskData, fPhaseCallback) =>
 		{
 			// This is a renderer dependency... append the renderer to the path.
 			if (pTaskData.Renderer)
@@ -88,12 +92,14 @@ module.exports = (pState, fStageComplete) =>
 		},
 		1
 	);
-	tmpQueue.drain = ()=>
+	tmpQueue.drain(() =>
 	{
 		pState.Behaviors.stateLog(pState, '...template location explosion complete.');
 		fStageComplete(null, pState);
-	};
+	});
 	if (pState.Manifest.Templates.length < 1)
-		pState.Manifest.Templates.push({File:"*", Path:pState.Behaviors.parseReportPath('Renderer', pState), Recursive:true});
-	tmpQueue.push(pState.Manifest.Templates, ()=>{});
+	{
+		pState.Manifest.Templates.push({ File:'*', Path:pState.Behaviors.parseReportPath('Renderer', pState), Recursive: true });
+	}
+	tmpQueue.push(pState.Manifest.Templates, () => { });
 };

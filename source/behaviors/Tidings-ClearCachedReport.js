@@ -6,7 +6,7 @@
 
 /**
 * Tidings Clear Cached Report Module
-* 
+*
 * This is to clear cached reports for reloading without restarting NPM.
 * So they can be changed on production.
 * This needs to be done manually.
@@ -16,18 +16,22 @@
 module.exports = (pModuleName) =>
 {
 	if (!pModuleName)
+	{
 		return false;
+	}
 
-	var tmpModule = require.resolve(pModuleName);
+	const tmpModule = require.resolve(pModuleName);
 
 	delete require.cache[tmpModule.id];
 
 	// Remove cached paths to the module.
 	Object.keys(tmpModule.constructor._pathCache).forEach(
-		(pCacheKey)=>
+		(pCacheKey) =>
 		{
 			if (pCacheKey.indexOf(pModuleName) > 0 )
+			{
 				delete tmpModule.constructor._pathCache[pCacheKey];
+			}
 		}
 	);
 };

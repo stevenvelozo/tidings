@@ -8,17 +8,17 @@ module.exports = (pState, pPath, pFileName, fCallback) =>
 {
 	pState.Libraries.DropBag.readFile(
 		{
-			Path:pState.Behaviors.parseReportPath(pPath, pState),
-			File:pFileName
+			Path: pState.Behaviors.parseReportPath(pPath, pState),
+			File: pFileName,
 		},
-		(pError, pData)=>
+		(pError, pData) =>
 		{
 			if (pError)
 			{
-				pState.Behaviors.stateLog(pState, 'Error loading file: '+JSON.stringify(pPath)+' '+JSON.stringify(pFileName)+' '+pError, true);
+				pState.Behaviors.stateLog(pState, 'Error loading file: ' + JSON.stringify(pPath) + ' ' + JSON.stringify(pFileName) + ' ' + pError, true);
 				return fCallback(pError);
 			}
-			else
-				return fCallback(pError, pData);
+
+			return fCallback(pError, pData);
 		});
 };
