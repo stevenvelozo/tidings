@@ -54,7 +54,7 @@ suite
 
 						var testReportGUID = testTidings.render({TidingsData:{Type:'badtemplate'}, Name: "The Mickey Mouse Club"},fDone);
 						GLOBAL_REPORT_HASH = testReportGUID;
-						
+
 						Expect(testReportGUID).to.be.a('string');
 					}
 				);

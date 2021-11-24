@@ -12,7 +12,7 @@
 module.exports = (pRequest, pResponse, fNext) =>
 {
 	pRequest.Datum = pRequest.body;
-	
+
 	if (typeof(pRequest.Datum) !== 'object')
 	{
 		// Invalid Datum
@@ -20,13 +20,15 @@ module.exports = (pRequest, pResponse, fNext) =>
 	}
 
 	pRequest.Tidings.commonservices.log.info('Starting to render a report');
-	var tmpReportGUID = pRequest.Tidings.render(pRequest.Datum,
-		(pError)=>
+	const tmpReportGUID = pRequest.Tidings.render(pRequest.Datum,
+		(pError) =>
 		{
 			if (pError)
-				pRequest.Tidings.commonservices.fable.log.error('Error Rendering Report: '+pError, {}, pRequest, pResponse, fNext);
+			{
+				pRequest.Tidings.commonservices.fable.log.error('Error Rendering Report: ' + pError, {}, pRequest, pResponse, fNext);
+			}
 		});
-	pRequest.Tidings.commonservices.log.info('...beginning rendering of report GUID '+tmpReportGUID);
+	pRequest.Tidings.commonservices.log.info('...beginning rendering of report GUID ' + tmpReportGUID);
 	pResponse.send({GUIDReportDescription:tmpReportGUID});
 	return fNext();
 };

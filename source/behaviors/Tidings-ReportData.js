@@ -6,13 +6,13 @@
 
 /**
 * Tidings Report Datum Access Behavior
-* 
+*
 *
 * @class doReportData
 * @constructor
 */
 module.exports = (pLocationHash, pFable, fCallback) =>
 {
-    // fCallback(pError, pData) comes from this.
-	pFable.Tidings.libraries.DropBag.readFile({Path: pFable.settings.Tidings.ReportOutputFolder+pLocationHash, File: 'Datum.json' }, fCallback);
+	// fCallback(pError, pData) comes from this.
+	pFable.Tidings.libraries.DropBag.readFile({ Path: pFable.settings.Tidings.ReportOutputFolder + pLocationHash, File: 'Datum.json' }, fCallback);
 };

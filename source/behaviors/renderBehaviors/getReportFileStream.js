@@ -4,7 +4,7 @@
 * @author <steven@velozo.com>
 */
 
-var libFS = require('fs');
+const libFS = require('fs');
 
 // File write functions
 module.exports = (pState, pData, pPath, pFileName, fCallback) =>
@@ -15,15 +15,17 @@ module.exports = (pState, pData, pPath, pFileName, fCallback) =>
 			File: pFileName,
 			Path: pState.Behaviors.parseReportPath(pPath, pState),
 			Data: pData,
-			AutoCreateFolders: true
+			AutoCreateFolders: true,
 		},
-		(pCreateError)=>
+		(pCreateError) =>
 		{
 			// We shouldn't bail out because one template didn't load so don't alter the callback.
 			if (pCreateError)
-				pState.Behaviors.stateLog(pState, 'Error making folder for report file stream: '+pState.Behaviors.parseReportPath(pPath, pState)+' -> '+pFileName+': '+pCreateError, true);
-				
-			var tmpReportFileStream = libFS.createWriteStream(pState.Behaviors.parseReportPath(pPath, pState)+pFileName);
+			{
+				pState.Behaviors.stateLog(pState, 'Error making folder for report file stream: ' + pState.Behaviors.parseReportPath(pPath, pState) + ' -> ' + pFileName + ': ' + pCreateError, true);
+			}
+
+			const tmpReportFileStream = libFS.createWriteStream(pState.Behaviors.parseReportPath(pPath, pState) + pFileName);
 
 			return fCallback(null, tmpReportFileStream);
 		});
