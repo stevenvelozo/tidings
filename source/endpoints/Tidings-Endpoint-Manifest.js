@@ -11,20 +11,22 @@
 */
 module.exports = (pRequest, pResponse, fNext) =>
 {
-	var tmpUUID = pRequest.params.UUID;
-	
+	const tmpUUID = pRequest.params.UUID;
+
 	if ((typeof(tmpUUID) !== 'string') || (tmpUUID.length < 1))
 	{
 		// Invalid UUID
 		return pRequest.Tidings.commonservices.sendCodedError('Error retrieving report Manifest: invalid UUID', {}, pRequest, pResponse, fNext);
 	}
 
-	pRequest.Tidings.commonservices.log.info('Delivering the Manifest for '+tmpUUID);
+	pRequest.Tidings.commonservices.log.info('Delivering the Manifest for ' + tmpUUID);
 	pRequest.Tidings.getReportStatus(tmpUUID,
-		(pError, pData)=>
+		(pError, pData) =>
 		{
 			if (pError)
+			{
 				return pRequest.Tidings.commonservices.sendCodedError('Error retrieving report Manifest: invalid UUID', {}, pRequest, pResponse, fNext);
+			}
 
 			pResponse.write(pData);
 			pResponse.end();

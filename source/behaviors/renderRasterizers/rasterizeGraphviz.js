@@ -11,22 +11,28 @@ const libGraphviz = require('graphviz');
 
 module.exports = (pTaskData, pState, fCallback) =>
 {
-	var tmpFileName = pTaskData.File;
+	const tmpFileName = pTaskData.File;
 
 	// If no path was supplied, use the Stage path
 	if (!pTaskData.Path)
+	{
 		pTaskData.Path = pState.Manifest.Metadata.Locations.Stage;
-	
+	}
+
 	if (!pTaskData.OutputPath)
+	{
 		pTaskData.OutputPath = pState.Manifest.Metadata.Locations.Stage;
+	}
 
 	if (!pTaskData.Output)
-		pTaskData.Output = tmpFileName+'.png';
-	
-	libGraphviz.parse(pTaskData.Path+pTaskData.File,
+	{
+		pTaskData.Output = tmpFileName + '.png';
+	}
+
+	libGraphviz.parse(pTaskData.Path + pTaskData.File,
 		(pGraph) =>
 		{
-			pGraph.render('png', pTaskData.OutputPath+pTaskData.Output);
+			pGraph.render('png', pTaskData.OutputPath + pTaskData.Output);
 			fCallback(null, pState);
 		}
 	);

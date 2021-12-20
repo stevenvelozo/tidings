@@ -1,25 +1,26 @@
 
 var reportDatum = (
 {
-	"Name": "Joan of Arc"
+	Name: 'Joan of Arc'
 });
 
 var fableConfig = (
 {
-	"Tidings":
+	APIServerPort: 9042,
+	Tidings:
 	{
-		"ReportDefinitionFolder": `${__dirname}/reports/`,
-		"ReportOutputFolder": `${__dirname}/../stage/`
+		ReportDefinitionFolder: `${__dirname}/reports/`,
+		ReportOutputFolder: `${__dirname}/../stage/`
 	},
-	"LogStreams":
+	LogStreams:
 	[
 		{
-			"level": "trace",
-			"path": `${__dirname}/../Tests-Run.log`
+			level: 'trace',
+			path: `${__dirname}/../Tests-Run.log`
 		},
 		{
-			"level": "trace",
-			"streamtype": "prettystream"
+			level: 'trace',
+			streamtype: 'prettystream'
 		}
 	]
 });
@@ -71,7 +72,7 @@ suite
 					{
 						var testTidings = libTidings.new(libFable);
 
-						var testReportGUID = testTidings.render({TidingsData:{Type:'assetladen'}, Name: "Billy Corgan"},
+						var testReportGUID = testTidings.render({TidingsData:{Type:'assetladen'}, Name: 'Billy Corgan'},
 							()=>
 							{
 								GLOBAL_REPORT_HASH = testReportGUID;
@@ -80,7 +81,7 @@ suite
 							}
 						);
 					}
-				).timeout(9910000);
+				).timeout(10000);
 				test
 				(
 					'get report datum',
@@ -91,6 +92,7 @@ suite
 						testTidings.getReportData(GLOBAL_REPORT_HASH,
 							(pError, pData)=>
 							{
+								Expect(pError).to.be.null;
 								Expect(pData).to.be.a('string');
 								Expect(pData).to.contain('Billy Corgan');
 								fDone();
@@ -108,6 +110,7 @@ suite
 						testTidings.getReportStatus(GLOBAL_REPORT_HASH,
 							(pError, pData)=>
 							{
+								Expect(pError).to.be.null;
 								Expect(pData).to.be.a('string');
 								var tmpData = JSON.parse(pData);
 								Expect(tmpData.Status.Rendered).to.equal(true);
@@ -125,19 +128,21 @@ suite
 						testTidings.deleteReport(GLOBAL_DELETE_REPORT_HASH,
 							(pError)=>
 							{
+								Expect(pError).to.be.null;
 								Expect(pError).to.equal(null);
 								fDone();
 							}
 						);
 					}
 				);
+				let _Orator;
 				test
 				(
 					'request a report from the server',
 					(fdone)=>
 					{
 						var testTidings = libTidings.new(libFable);
-						var _Orator = testTidings.Orator();
+						_Orator = testTidings.Orator();
 						testTidings.connectRoutes(_Orator.webServer);
 						testTidings.connectOutputRoutes(_Orator);
 						testTidings.connectDefinitionRoutes(_Orator);
@@ -146,11 +151,12 @@ suite
 								libRequest(
 									{
 										method:  'POST',
-										url:     'http://localhost:8080/1.0/ReportSync',
-										json:    {TidingsData:{Type:'assetladen'}, Name: "Billy Corgan"}
+										url:     'http://localhost:9042/1.0/ReportSync',
+										json:    {TidingsData:{Type:'assetladen'}, Name: 'Billy Corgan'}
 									},
 								(pError, pResponse, pBody)=>
 								{
+									Expect(pError).to.be.null;
 									Expect(pBody).to.be.an('object');
 									Expect(pBody.GUIDReportDescription).to.be.a('string');
 									Expect(pBody.Error).to.equal(undefined);
@@ -160,7 +166,8 @@ suite
 						);
 					}
 				// Change the test timeout to 10 seconds for slow docker containers running unit tests
-				).timeout(9910000);
+				).timeout(10000);
+				test('clean up test orator', () => _Orator.stopWebServer());
 			}
 		);
 	}

@@ -1,25 +1,25 @@
 
 var reportDatum = (
 {
-	"Name": "The Backstreet Boys"
+	Name: 'The Backstreet Boys'
 });
 
 var fableConfig = (
 {
-	"Tidings":
+	Tidings:
 	{
-		"ReportDefinitionFolder": `${__dirname}/reports/`,
-		"ReportOutputFolder": `${__dirname}/../stage/`
+		ReportDefinitionFolder: `${__dirname}/reports/`,
+		ReportOutputFolder: `${__dirname}/../stage/`,
 	},
-	"LogStreams":
+	LogStreams:
 	[
 		{
-			"level": "trace",
-			"path": `${__dirname}/../Tests-Run.log`
+			level: 'trace',
+			path: `${__dirname}/../Tests-Run.log`,
 		},
 		{
-			"level": "trace",
-			"streamtype": "prettystream"
+			level: 'trace',
+			streamtype: 'prettystream',
 		}
 	]
 });
@@ -54,7 +54,7 @@ suite
 
 						var testReportGUID = testTidings.render({TidingsData:{Type:'badtemplate'}, Name: "The Mickey Mouse Club"},fDone);
 						GLOBAL_REPORT_HASH = testReportGUID;
-						
+
 						Expect(testReportGUID).to.be.a('string');
 					}
 				);

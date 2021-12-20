@@ -6,13 +6,13 @@
 
 /**
 * Tidings Report Status Access Behavior
-* 
+*
 *
 * @class doReportStatus
 * @constructor
 */
 module.exports = (pLocationHash, pFable, fCallback) =>
 {
-    // fCallback(pError, pStatus) comes from this.
-	pFable.Tidings.libraries.DropBag.readFile({Path: pFable.settings.Tidings.ReportOutputFolder+pLocationHash, File: 'Manifest.json' }, fCallback);
+	// fCallback(pError, pStatus) comes from this.
+	pFable.Tidings.libraries.DropBag.readFile({ Path: pFable.settings.Tidings.ReportOutputFolder + pLocationHash, File: 'Manifest.json' }, fCallback);
 };

@@ -23,28 +23,33 @@ This has to happen before you execute the Tidings application.  This is a limita
 
  */
 // This is so we don't have a dependency on that library outright for our reporting module (when the usual case is to just use html)
-var libWkhtmltopdf = require('wkhtmltopdf');
-var libFS = require('fs');
+const libWkhtmltopdf = require('wkhtmltopdf');
+const libFS = require('fs');
 
 module.exports = (pTaskData, pState, fCallback) =>
 {
-	var tmpFileName = pTaskData.File;
+	const tmpFileName = pTaskData.File;
 
 	// If no path was supplied, use the Stage path
 	if (!pTaskData.Path)
+	{
 		pTaskData.Path = pState.Manifest.Metadata.Locations.Stage;
-	
+	}
+
 	if (!pTaskData.OutputPath)
+	{
 		pTaskData.OutputPath = pState.Manifest.Metadata.Locations.Stage;
-		
+	}
+
 	if (!pTaskData.Output)
-		pTaskData.Output = tmpFileName+'.pdf';
-	
-	
+	{
+		pTaskData.Output = tmpFileName + '.pdf';
+	}
+
 	// Need to move away from libFS only ASAFP so this works with dropbag.
 	// Because these tools are external, they likely need to happen locally in scratch then upload the files that are generated.
 	// Talk to Jason about how best to manage this and for now only support FS.
-	var tmpOutputStream = libFS.createWriteStream(pTaskData.OutputPath+pTaskData.Output);
+	const tmpOutputStream = libFS.createWriteStream(pTaskData.OutputPath  + pTaskData.Output);
 	tmpOutputStream.on('finish',
 		() =>
 		{
@@ -54,27 +59,31 @@ module.exports = (pTaskData, pState, fCallback) =>
 	tmpOutputStream.on('error',
 		(pError) =>
 		{
-			pState.Behaviors.stateLog(pState, 'Error generating pdf with WKHTMLPDF: '+JSON.stringify(pTaskData)+' '+pError, true);
+			pState.Behaviors.stateLog(pState, 'Error generating pdf with WKHTMLPDF: ' + JSON.stringify(pTaskData) + ' ' + pError, true);
 		}
 	);
 
-	process.env["LC_ALL"] = 'C';
+	process.env['LC_ALL'] = 'C';
 	// Load settings from the scratch state if they are there (so reports can pass them in)
-	var tmpWKHTMLtoPDFSettings = (typeof(pState.Scratch.WKHTMLtoPDFSettings) !== 'undefined') ? pState.Scratch.WKHTMLtoPDFSettings : {};
+	const tmpWKHTMLtoPDFSettings = (typeof(pState.Scratch.WKHTMLtoPDFSettings) !== 'undefined') ? pState.Scratch.WKHTMLtoPDFSettings : {};
 	// Some default settings
 	if (!tmpWKHTMLtoPDFSettings.hasOwnProperty('pageSize'))
+	{
 		tmpWKHTMLtoPDFSettings.pageSize = 'letter';
+	}
 	if (!tmpWKHTMLtoPDFSettings.hasOwnProperty('print-media-type'))
+	{
 		tmpWKHTMLtoPDFSettings['print-media-type'] = true;
+	}
 
 	// Actually run the PDF generator (this requires the server to be running)
 	try
 	{
-		libWkhtmltopdf(pState.Fable.settings.Tidings.TidingsServerAddress+'/1.0/Report/'+pState.Manifest.Metadata.GUIDReportDescription+'/'+tmpFileName, tmpWKHTMLtoPDFSettings)
+		libWkhtmltopdf(pState.Fable.settings.Tidings.TidingsServerAddress + '/1.0/Report/' + pState.Manifest.Metadata.GUIDReportDescription + '/' + tmpFileName, tmpWKHTMLtoPDFSettings)
 			.pipe(tmpOutputStream);
 	}
 	catch (pError)
 	{
-		fCallback('Problem rasterizing using the WKHTMLtoPDF library: '+pError, pState);
+		fCallback('Problem rasterizing using the WKHTMLtoPDF library: ' + pError, pState);
 	}
 };

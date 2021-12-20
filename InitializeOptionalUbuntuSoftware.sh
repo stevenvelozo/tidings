@@ -10,13 +10,16 @@ if [ "$EUID" -ne 0 ]
 fi
 
 echo "-> Update Software"
-apt-get update
+apt update
 echo ""
 
 echo "-> LaTeX"
-apt-get install -y texlive
+apt install -y texlive
 echo ""
 
 echo "-> Graphviz"
-apt-get install -y graphviz 
+apt install -y graphviz
 echo ""
+
+echo "Cleaning apt lists (to keep layer size down)"
+rm -rf /var/lib/apt/lists/*

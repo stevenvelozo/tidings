@@ -7,10 +7,14 @@
 // Log something to the manifest with the state passed in
 module.exports = (pState, pLogEntry, pIsError) =>
 {
-	pState.Manifest.Log.push(new Date().toUTCString()+': '+pLogEntry);
+	pState.Manifest.Log.push(new Date().toUTCString() + ': ' + pLogEntry);
 
 	if (pIsError)
+	{
 		pState.Fable.log.error(pLogEntry);
+	}
 	else
+	{
 		pState.Fable.log.info(pLogEntry);
+	}
 };

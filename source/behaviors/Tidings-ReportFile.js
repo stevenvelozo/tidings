@@ -6,13 +6,13 @@
 
 /**
 * Tidings Report StagedFile Access Behavior
-* 
+*
 *
 * @class doReportFile
 * @constructor
 */
 module.exports = (pLocationHash, pFileName, pFable, fCallback) =>
 {
-    // fCallback(pError, pData) comes from this.
-	pFable.Tidings.libraries.DropBag.readFile({Path: pFable.settings.Tidings.ReportOutputFolder+pLocationHash+'/Stage', File: pFileName }, fCallback);
+	// fCallback(pError, pData) comes from this.
+	pFable.Tidings.libraries.DropBag.readFile({ Path: pFable.settings.Tidings.ReportOutputFolder + pLocationHash + '/Stage', File: pFileName }, fCallback);
 };
