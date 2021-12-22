@@ -79,7 +79,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 	// Actually run the PDF generator (this requires the server to be running)
 	try
 	{
-		libWkhtmltopdf(pState.Fable.settings.Tidings.TidingsServerAddress + '/1.0/Report/' + pState.Manifest.Metadata.GUIDReportDescription + '/' + tmpFileName, tmpWKHTMLtoPDFSettings)
+		libWkhtmltopdf(`${pState.Fable.settings.Tidings.TidingsServerAddress}/1.0/Report/${pState.Manifest.Metadata.GUIDReportDescription}/${tmpFileName}?Format=pdf`, tmpWKHTMLtoPDFSettings)
 			.pipe(tmpOutputStream);
 	}
 	catch (pError)

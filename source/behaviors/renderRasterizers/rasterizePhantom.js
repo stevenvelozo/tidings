@@ -49,7 +49,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 
 	libPhantom(
 		{
-			url: pState.Fable.settings.Tidings.TidingsServerAddress + '/1.0/Report/' + pState.Manifest.Metadata.GUIDReportDescription + '/' + tmpFileName
+			url: `${pState.Fable.settings.Tidings.TidingsServerAddress}/1.0/Report/${pState.Manifest.Metadata.GUIDReportDescription}/${tmpFileName}?Format=pdf`,
 		},
 		(pError, pPDF) =>
 		{

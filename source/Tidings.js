@@ -38,7 +38,7 @@ const Tidings = function()
 		// This is used for rasterizers that pull the report HTML and turn the output into a pdf.
 		if (!_Fable.settings.Tidings.hasOwnProperty('TidingsServerAddress'))
 		{
-			_Fable.settings.Tidings.TidingsServerAddress = 'http://localhost:' + _Fable.settings.APIServerPort;
+			_Fable.settings.Tidings.TidingsServerAddress = `http://localhost:${_Fable.settings.APIServerPort || '8080'}`;
 		}
 
 		const libReportManifestManagement = require('./Tidings-ReportManifestManagement.js').new(_Fable);
