@@ -42,10 +42,12 @@ module.exports = new function()
 			let tmpScope = null;
 			let tmpParams = null;
 			let tmpSessionID = null;
+			let tmpStack = null;
 
 			if (typeof(pError) === 'object')
 			{
-				tmpErrorMessage = pError.Message;
+				tmpErrorMessage = pError.Message || pError.message || pDefaultMessage; // don't nuke the message with nothing
+				tmpStack = pError.stack;
 				if (pError.Code)
 				{
 					tmpErrorCode = pError.Code;
@@ -67,8 +69,12 @@ module.exports = new function()
 			{
 				tmpSessionID = pRequest.UserSession.SessionID;
 			}
+			if (!tmpStack)
+			{
+				tmpStack = new Error().stack; // try to have a stack trace for debugging
+			}
 
-			_Log.warn('API Error: ' + tmpErrorMessage, {SessionID: tmpSessionID, RequestID:pRequest.RequestUUID, RequestURL:pRequest.url, Scope: tmpScope, Parameters: tmpParams, Action:'APIError'}, pRequest);
+			_Log.warn('API Error: ' + tmpErrorMessage, {SessionID: tmpSessionID, RequestID:pRequest.RequestUUID, RequestURL:pRequest.url, Scope: tmpScope, Parameters: tmpParams, Action:'APIError', Stack: tmpStack}, pRequest);
 			pResponse.send({Error:tmpErrorMessage, ErrorCode: tmpErrorCode});
 
 			return fNext();
