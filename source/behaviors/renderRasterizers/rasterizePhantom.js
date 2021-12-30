@@ -42,7 +42,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 	tmpOutputStream.on('error',
 		(pError) =>
 		{
-			pState.Behaviors.stateLog(pState, 'Error generating pdf with PhantomPDF: ' + JSON.stringify(pTaskData) + ' ' + pError, true);
+			pState.Behaviors.stateLog(pState, 'Error generating pdf with PhantomPDF: ' + JSON.stringify(pTaskData) + ' ' + pError, pError);
 			fCallback(null, pState);
 		}
 	);

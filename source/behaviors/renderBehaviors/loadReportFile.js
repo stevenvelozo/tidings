@@ -15,7 +15,7 @@ module.exports = (pState, pPath, pFileName, fCallback) =>
 		{
 			if (pError)
 			{
-				pState.Behaviors.stateLog(pState, 'Error loading file: ' + JSON.stringify(pPath) + ' ' + JSON.stringify(pFileName) + ' ' + pError, true);
+				pState.Behaviors.stateLog(pState, 'Error loading file: ' + JSON.stringify(pPath) + ' ' + JSON.stringify(pFileName) + ' ' + pError, pError);
 				return fCallback(pError);
 			}
 

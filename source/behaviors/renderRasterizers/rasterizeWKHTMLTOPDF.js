@@ -59,7 +59,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 	tmpOutputStream.on('error',
 		(pError) =>
 		{
-			pState.Behaviors.stateLog(pState, 'Error generating pdf with WKHTMLPDF: ' + JSON.stringify(pTaskData) + ' ' + pError, true);
+			pState.Behaviors.stateLog(pState, 'Error generating pdf with WKHTMLPDF: ' + JSON.stringify(pTaskData) + ' ' + pError, pError);
 		}
 	);
 
@@ -84,6 +84,6 @@ module.exports = (pTaskData, pState, fCallback) =>
 	}
 	catch (pError)
 	{
-		fCallback('Problem rasterizing using the WKHTMLtoPDF library: ' + pError, pState);
+		fCallback(new Error(`Problem rasterizing using the WKHTMLtoPDF library: ${pError.message}`), pState);
 	}
 };

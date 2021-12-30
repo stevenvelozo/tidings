@@ -18,13 +18,13 @@ const recurseFiles = (pPath, pState, fRecursionComplete, pPathRoot) =>
 			if (pError && pError.code == 'ENOENT')
 			{
 				pState.Behaviors.stateLog(pState, 'Warning: Template path [' + tmpNormalizedPath + '] does not exist; most likely there is no folder for the current renderer.');
-				pState.Behaviors.stateLog(pState, 'Warning FS Error Message: ' + pError);
+				pState.Behaviors.stateLog(pState, 'Warning FS Error Message: ' + pError, pError);
 				return fRecursionComplete();
 			}
 			else if (pError)
 			{
 				pState.Behaviors.stateLog(pState, 'Error: Template scanning of path [' + tmpNormalizedPath + '] failed.');
-				pState.Behaviors.stateLog(pState, 'FS Error Message: ' + pError);
+				pState.Behaviors.stateLog(pState, 'FS Error Message: ' + pError, pError);
 				return fRecursionComplete();
 			}
 
