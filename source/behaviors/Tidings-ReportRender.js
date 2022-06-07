@@ -151,7 +151,7 @@ module.exports = (pDatum, pFable, fCallback) =>
 				{
 					if (pError)
 					{
-						pState.Behaviors.stateLog(pState, 'Error writing report datum: ' + pError, true);
+						pState.Behaviors.stateLog(pState, 'Error writing report datum: ' + pError, pError);
 						return fStageComplete(pError, pState);
 					}
 					pState.Behaviors.stateLog(pState, '...persisted the Report Datum');
@@ -173,7 +173,7 @@ module.exports = (pDatum, pFable, fCallback) =>
 					{
 						if (pError)
 						{
-							pState.Behaviors.stateLog(pState, 'Error loading report definition: ' + pError, true);
+							pState.Behaviors.stateLog(pState, 'Error loading report definition: ' + pError, pError);
 							return fStageComplete(pError, pState);
 						}
 						pState.Behaviors.stateLog(pState, 'Loaded definition: ' + pState.Fable.settings.Tidings.ReportDefinitionFolder + pState.Manifest.Metadata.Type);
@@ -198,7 +198,7 @@ module.exports = (pDatum, pFable, fCallback) =>
 						{
 							if (pError)
 							{
-								pState.Behaviors.stateLog(pState, 'Error loading the default report definition: ' + pError, true);
+								pState.Behaviors.stateLog(pState, 'Error loading the default report definition: ' + pError, pError);
 								return fStageComplete(pError, pState);
 							}
 							pState.Behaviors.stateLog(pState, 'Default definition loaded: ' + __dirname + '/../../reports/default');
@@ -228,14 +228,14 @@ module.exports = (pDatum, pFable, fCallback) =>
 					{
 						if (pError)
 						{
-							pState.Behaviors.stateLog(pState, 'Error loading the report behaviors. ' + pError, true);
+							pState.Behaviors.stateLog(pState, 'Error loading the report behaviors. ' + pError, pError);
 							return fStageComplete(pError, pState);
 						}
 						try
 						{
 							pState.ReportBehaviors = pState.Fable.Tidings.libraries.Underscore.extend({}, require(__dirname + '/../../tidings-report-prototype/source/Tidings-Report-Prototype.js'), require(pState.Manifest.Metadata.Locations.ReportDefinition + '/report.js'));
 						}
-						catch(pRequireError)
+						catch (pRequireError)
 						{
 							return fStageComplete(pRequireError, pState);
 						}
@@ -394,7 +394,7 @@ module.exports = (pDatum, pFable, fCallback) =>
 					{
 						if (pError)
 						{
-							pState.Behaviors.stateLog(pState, 'Error deleting scratch files', true);
+							pState.Behaviors.stateLog(pState, 'Error deleting scratch files', pError);
 						}
 
 						fStageComplete(null, pState);
@@ -410,7 +410,7 @@ module.exports = (pDatum, pFable, fCallback) =>
 
 			if (pError)
 			{
-				pState.Behaviors.stateLog(pState, 'Error rendering a tidings report: ' + pError, true);
+				pState.Behaviors.stateLog(pState, 'Error rendering a tidings report: ' + pError, pError);
 				return tmpCallback(pError, pState);
 			}
 

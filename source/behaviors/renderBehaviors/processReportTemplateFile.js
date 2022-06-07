@@ -31,7 +31,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 				{
 					debugger;
 				}
-				pState.Behaviors.stateLog(pState, 'Error loading template: ' + JSON.stringify(pTaskData) + ' ' + pReadError, true);
+				pState.Behaviors.stateLog(pState, 'Error loading template: ' + JSON.stringify(pTaskData) + ' ' + pReadError, pReadError);
 				return fCallback();
 			}
 			// Function to safely execute underscore templates
@@ -47,7 +47,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 				catch (pTemplateParsingError)
 				{
 					// Uh-oh!  The user has an error in their template.
-					pState.Behaviors.stateLog(pState, 'Error parsing template: ' + pTemplateParsingError, true);
+					pState.Behaviors.stateLog(pState, 'Error parsing template: ' + pTemplateParsingError, pTemplateParsingError);
 					if (pState.Fable.settings.TidingsDebug)
 					{
 						debugger;
@@ -74,7 +74,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 				{
 					// Uh-oh!  The user has an error executing their template.  Most likely it expects data in the datum that doesn't exist.
 					if (pState.Fable.TidingsDebug) debugger;
-					pState.Behaviors.stateLog(pState, 'Error executing template: ' + pTemplateExecutionError, true);
+					pState.Behaviors.stateLog(pState, 'Error executing template: ' + pTemplateExecutionError, pTemplateExecutionError);
 				}
 
 				return tmpContent;

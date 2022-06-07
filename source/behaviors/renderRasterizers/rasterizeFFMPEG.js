@@ -48,7 +48,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 		})
 		.on('error', (pError) =>
 		{
-			pState.Behaviors.stateLog(pState, 'Error executing FFMPEG ' + JSON.stringify(pTaskData) + ': ' + pError, true);
+			pState.Behaviors.stateLog(pState, 'Error executing FFMPEG ' + JSON.stringify(pTaskData) + ': ' + pError, pError);
 		})
 		.on('end', () =>
 		{

@@ -45,7 +45,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 		{
 			if (pError)
 			{
-				pState.Behaviors.stateLog(pState, 'Error executing command line program: ' + JSON.stringify(pTaskData) + ' ' + pError, true);
+				pState.Behaviors.stateLog(pState, 'Error executing command line program: ' + JSON.stringify(pTaskData) + ' ' + pError, pError);
 			}
 
 			pState.Behaviors.stateLog(pState, 'STDOUT: ' + pStdout, true);

@@ -69,7 +69,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 				pTaskData.TotalRasterizeTime = pTaskData.RasterizeEndTime - pTaskData.RasterizeStartTime;
 				if (pError)
 				{
-					pState.Behaviors.stateLog(pState, 'Error executing auto rasterizer [' + pTaskData.Rasterizer + ']: ' + pError, true);
+					pState.Behaviors.stateLog(pState, 'Error executing auto rasterizer [' + pTaskData.Rasterizer + ']: ' + pError, pError);
 					return fCallback(null, pState);
 				}
 
@@ -78,7 +78,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 	}
 	catch (pError)
 	{
-		pState.Behaviors.stateLog(pState, 'Error loading auto rasterizer [' + pTaskData.Rasterizer + ']: ' + pError, true);
+		pState.Behaviors.stateLog(pState, 'Error loading auto rasterizer [' + pTaskData.Rasterizer + ']: ' + pError, pError);
 		fCallback(null, pState);
 	}
 };

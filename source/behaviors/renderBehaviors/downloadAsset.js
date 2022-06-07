@@ -24,12 +24,12 @@ module.exports = (pTaskData, pState, fCallback) =>
 			// We shouldn't bail out because one asset didn't download so don't alter the callback.
 			if (pRequestError)
 			{
-				pState.Behaviors.stateLog(pState, 'Error downloading asset: ' + JSON.stringify(pTaskData) + ' ' + pRequestError, true);
+				pState.Behaviors.stateLog(pState, 'Error downloading asset: ' + JSON.stringify(pTaskData) + ' ' + pRequestError, pRequestError);
 				return fCallback();
 			}
 			if (typeof(pBody) === 'undefined')
 			{
-				pState.Behaviors.stateLog(pState, 'Error downloading asset: ' + JSON.stringify(pTaskData) + ' ... body is undefined!', true);
+				pState.Behaviors.stateLog(pState, 'Error downloading asset: ' + JSON.stringify(pTaskData) + ' ... body is undefined!', new Error('Asset response body is undefined.'));
 				return fCallback();
 			}
 			console.log('content-type:', pResponse.headers['content-type']);

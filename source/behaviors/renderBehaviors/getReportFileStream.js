@@ -22,7 +22,7 @@ module.exports = (pState, pData, pPath, pFileName, fCallback) =>
 			// We shouldn't bail out because one template didn't load so don't alter the callback.
 			if (pCreateError)
 			{
-				pState.Behaviors.stateLog(pState, 'Error making folder for report file stream: ' + pState.Behaviors.parseReportPath(pPath, pState) + ' -> ' + pFileName + ': ' + pCreateError, true);
+				pState.Behaviors.stateLog(pState, 'Error making folder for report file stream: ' + pState.Behaviors.parseReportPath(pPath, pState) + ' -> ' + pFileName + ': ' + pCreateError, pCreateError);
 			}
 
 			const tmpReportFileStream = libFS.createWriteStream(pState.Behaviors.parseReportPath(pPath, pState) + pFileName);

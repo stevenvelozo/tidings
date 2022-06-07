@@ -5,13 +5,27 @@
 */
 
 // Log something to the manifest with the state passed in
-module.exports = (pState, pLogEntry, pIsError) =>
+module.exports = (pState, pLogEntry, pError) =>
 {
 	pState.Manifest.Log.push(new Date().toUTCString() + ': ' + pLogEntry);
 
-	if (pIsError)
+	if (pError)
 	{
-		pState.Fable.log.error(pLogEntry);
+		let payload;
+
+		if (typeof(pError) === 'object')
+		{
+			payload = { Error: pError.message, Stack: pError.stack };
+		}
+		else if (typeof(pError) === 'string')
+		{
+			payload = { Error: pError };
+		}
+		else if (typeof(pError) !== 'boolean') // true just means "log an as error", as before - we don't except other types here, so log more for debugging
+		{
+			payload = { Error: JSON.stringify(pError), ErrorType: typeof(pError) };
+		}
+		pState.Fable.log.error(pLogEntry, payload);
 	}
 	else
 	{

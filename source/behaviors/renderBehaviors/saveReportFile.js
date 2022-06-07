@@ -20,10 +20,12 @@ module.exports = (pState, pData, pPath, pFileName, fCallback) =>
 			// We shouldn't bail out because one template didn't load so don't alter the callback.
 			if (pPersistError)
 			{
-				pState.Behaviors.stateLog(pState, 'Error writing report file: ' + pState.Behaviors.parseReportPath(pPath, pState) + ' -> ' + pFileName + ': ' + pPersistError, true);
+				pState.Behaviors.stateLog(pState, 'Error writing report file: ' + pState.Behaviors.parseReportPath(pPath, pState) + ' -> ' + pFileName + ': ' + pPersistError, pPersistError);
 			}
-
-			pState.Behaviors.stateLog(pState, '--> Wrote report file: ' + pFileName + ' TO ' + pState.Behaviors.parseReportPath(pPath, pState));
+			else
+			{
+				pState.Behaviors.stateLog(pState, '--> Wrote report file: ' + pFileName + ' TO ' + pState.Behaviors.parseReportPath(pPath, pState));
+			}
 			return fCallback();
 		});
 };

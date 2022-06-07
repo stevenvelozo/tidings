@@ -15,7 +15,7 @@ module.exports = (pState, fCallback) =>
 		{
 			if (pError)
 			{
-				pState.Behaviors.stateLog(pState, 'Error deleting asset files', true);
+				pState.Behaviors.stateLog(pState, 'Error deleting asset files', pError);
 			}
 
 			fCallback(null, pState);
