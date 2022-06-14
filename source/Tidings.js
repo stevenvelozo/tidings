@@ -56,6 +56,7 @@ const Tidings = function()
 		_Libraries.BigNumber = require('bignumber.js');
 		_Libraries.Cheerio = require('cheerio');
 		_Libraries.Request = require('request');
+		_Libraries.Luxon = require('luxon');
 		const libChance = require('chance');
 		_Libraries.Chance = new libChance();
 
