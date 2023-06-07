@@ -59,7 +59,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 	tmpOutputStream.on('error',
 		(pError) =>
 		{
-			pState.Behaviors.stateLog(pState, 'Error generating pdf with WKHTMLPDF: ' + JSON.stringify(pTaskData) + ' ' + pError, pError);
+			pState.Behaviors.stateLog(pState, 'Error writing pdf from WKHTMLPDF: ' + JSON.stringify(pTaskData) + ' ' + pError, pError);
 		}
 	);
 
@@ -79,8 +79,14 @@ module.exports = (pTaskData, pState, fCallback) =>
 	// Actually run the PDF generator (this requires the server to be running)
 	try
 	{
-		libWkhtmltopdf(`${pState.Fable.settings.Tidings.TidingsServerAddress}/1.0/Report/${pState.Manifest.Metadata.GUIDReportDescription}/${tmpFileName}?Format=pdf`, tmpWKHTMLtoPDFSettings)
-			.pipe(tmpOutputStream);
+		const tmpPdfStream = libWkhtmltopdf(`${pState.Fable.settings.Tidings.TidingsServerAddress}/1.0/Report/${pState.Manifest.Metadata.GUIDReportDescription}/${tmpFileName}?Format=pdf`, tmpWKHTMLtoPDFSettings);
+		tmpPdfStream.on('error',
+			(pError) =>
+			{
+				pState.Behaviors.stateLog(pState, 'Error generating pdf with WKHTMLPDF: ' + JSON.stringify(pTaskData) + ' ' + (pError.message || pError), pError);
+			}
+		);
+		tmpPdfStream.pipe(tmpOutputStream);
 	}
 	catch (pError)
 	{
