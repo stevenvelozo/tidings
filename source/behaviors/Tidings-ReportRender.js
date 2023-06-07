@@ -319,7 +319,7 @@ module.exports = (pDatum, pFable, fCallback) =>
 			},
 			(pState, fStageComplete) => { pState.Behaviors.setProgressPercentage(pState, 75, falseToNull(fStageComplete)); },
 			persistManifest,
-			// : Execute the report calculate function
+			// : Execute the report explodeTemplateFiles function
 			(pState, fStageComplete) =>
 			{
 				pState.Behaviors.stateLog(pState, 'Exploding template files...');

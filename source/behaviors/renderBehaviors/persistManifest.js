@@ -6,6 +6,11 @@
 
 module.exports = (pState, fStageComplete) =>
 {
+	if (!pState.Manifest || (typeof(pState.Manifest) == 'object' && Object.keys(pState.Manifest).length < 1))
+	{
+		pState.Behaviors.stateLog(pState, '...manifest does not exist, not writing empty manifest. ' + JSON.stringify(pState.Manifest));
+		return fStageComplete(null, pState);
+	}
 	// Persist the manifest (and separately the datum)
 	pState.Libraries.DropBag.storeFile(
 	{
