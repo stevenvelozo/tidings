@@ -1,6 +1,6 @@
 {
     "name": "tidings",
-    "version": "1.0.26",
+    "version": "1.0.27",
     "description": "Reporting scaffolding and pattern.",
     "main": "source/Tidings.js",
     "scripts": {
