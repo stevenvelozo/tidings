@@ -14,7 +14,9 @@ var defaultReportDatum =
 			Type:'assetladen',
 			Renderer: 'pdf'
 	},
-	Name: 'Totally My Gangnam Style'
+	Name: 'Totally My Gangnam Style',
+
+	APIServerPort: 8000
 };
 
 var fableConfig = 
@@ -63,7 +65,7 @@ _Orator.startWebServer(()=>
 				libRequest(
 					{
 						method:  'POST',
-						url:     'http://localhost:8080/1.0/ReportSync',
+						url:     'http://localhost:8000/1.0/ReportSync',
 						json:    {TidingsData:{Type:'assetladen', Renderer:'pdf'}, Name: "Billy Corgan"}
 					},
 				(pError, pResponse, pBody)=>
