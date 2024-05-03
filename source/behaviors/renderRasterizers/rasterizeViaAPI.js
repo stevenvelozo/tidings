@@ -59,15 +59,17 @@ module.exports = (pTaskData, pState, fCallback) =>
 				{
 					tmpOutputStream.close();
 					pState.Behaviors.stateLog(pState, 'Error generating pdf with ViaAPI: ' + JSON.stringify(tmpRequest) + ' ' + pRequestError, pRequestError);
-					return fCallback(pRequestError, pState);
 				}
-				pResponse.on('error',
-					(pError) =>
-					{
-						pState.Behaviors.stateLog(pState, 'Error generating pdf with ViaAPI: ' + JSON.stringify(tmpRequest) + ' ' + (pError.message || pError), pError);
-					}
-				);
-				pResponse.pipe(tmpOutputStream);
+				else
+				{
+					pResponse.on('error',
+						(pError) =>
+						{
+							pState.Behaviors.stateLog(pState, 'Error generating pdf with ViaAPI: ' + JSON.stringify(tmpRequest) + ' ' + (pError.message || pError), pError);
+						}
+					);
+					pResponse.pipe(tmpOutputStream);
+				}
 			});
 	}
 	catch (pError)
