@@ -15,7 +15,6 @@ const serveGlobalFile = (pRequest, pResponse, fNext) =>
 {
 	// The split removes query string parameters so they are ignored by our static web server.
 	// The substring cuts that out from the file path so relative files serve from the folders and server
-	console.log(pRequest.url);
 	const tmpRequestPath = pRequest.url.split('?');
 	if (tmpRequestPath[0].length < 10)
 	{
@@ -29,13 +28,28 @@ const serveGlobalFile = (pRequest, pResponse, fNext) =>
 		return pRequest.Tidings.commonservices.sendCodedError('Error retrieving global report file: problematic url [' + tmpRequestPath[0] + ']');
 	}
 
-	const tmpRequestFileFullPath = libPath.normalize(pRequest.Tidings.fable.settings.Tidings.GlobalAssetFolder + tmpRequestedFilePathParts[1]);
-	const tmpRequestFilePath = libPath.dirname(tmpRequestFileFullPath);
-	const tmpRequestFileName = libPath.basename(tmpRequestFileFullPath);
+	// Global folders internally is always an array, client could provide it as a string value as well though
+	const globalFolders = Array.isArray(pRequest.Tidings.fable.settings.Tidings.GlobalAssetFolder) ?
+		pRequest.Tidings.fable.settings.Tidings.GlobalAssetFolder :
+		[pRequest.Tidings.fable.settings.Tidings.GlobalAssetFolder];
 
-	pRequest.Tidings.commonservices.log.info('Delivering the global File [' + tmpRequestFilePath + '] + [' + tmpRequestFileName + ']');
-	pRequest.Tidings.libraries.DropBag.readFile({Stream: true, File: tmpRequestFileName, Path:tmpRequestFilePath  },
-		(pError, pData) =>
+	// make the requested file relative to each of our global folders
+	const relativeFilePaths = globalFolders.map(pFolder => libPath.normalize(pFolder + tmpRequestedFilePathParts[1]));
+
+	findFirstExistentFile(relativeFilePaths, (pError, pFilePath) =>
+	{
+		// if no file was found we get an error and no pFilePath
+		if(pError)
+		{
+			return pRequest.Tidings.commonservices.sendCodedError('Error retrieving global File: ' + pError, {}, pRequest, pResponse, fNext);
+		}
+
+		const tmpRequestFileName = libPath.basename(pFilePath);
+		const tmpRequestFilePath = libPath.dirname(pFilePath);
+
+		pRequest.Tidings.commonservices.log.info('Delivering the global File [' + tmpRequestFilePath + '] + [' + tmpRequestFileName + ']');
+
+		pRequest.Tidings.libraries.DropBag.readFile({Stream: true, File: tmpRequestFileName, Path:tmpRequestFilePath  }, (pError, pData) =>
 		{
 			if (pError)
 			{
@@ -57,8 +71,41 @@ const serveGlobalFile = (pRequest, pResponse, fNext) =>
 				'end',
 				fNext
 			);
+		});
+	});
+
+	/**
+	 * Finds the first file which exists in the given paths.
+	 * If no file is found an error is returned to the pCallback
+	 * @param {Array<string>} pPaths
+	 * @param pCallback
+	 */
+	function findFirstExistentFile(pPaths, pCallback)
+	{
+		if(pPaths.length === 0)
+		{
+			return pCallback(new Error('No file found in paths'), null);
 		}
-	);
+		const tmpRequestFileName = libPath.basename(pPaths[0]);
+		const tmpRequestFilePath = libPath.dirname(pPaths[0]);
+
+		pRequest.Tidings.libraries.DropBag.fileExists({File: tmpRequestFileName, Path: tmpRequestFilePath}, (pError, pExists) =>
+		{
+			if(pError)
+			{
+				return pCallback(pError, null);
+			}
+
+			if(pExists)
+			{
+				return pCallback(null, pPaths[0]);
+			}
+			else
+			{
+				return findFirstExistentFile(pPaths.slice(1), pCallback);
+			}
+		});
+	}
 };
 
 
