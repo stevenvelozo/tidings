@@ -12,9 +12,7 @@ const libRequest = require('request');
 
 module.exports = (pTaskData, pState, fCallback) =>
 {
-	const tmpFileName = pTaskData.File;
 
-	// If no path was supplied, use the Stage path
 	if (!pTaskData.Path)
 	{
 		pTaskData.Path = pState.Manifest.Metadata.Locations.Stage;
@@ -27,8 +25,12 @@ module.exports = (pTaskData, pState, fCallback) =>
 
 	if (!pTaskData.Output)
 	{
-		pTaskData.Output = tmpFileName + '.pdf';
+		fCallback(new Error('Output file name not provided for rasterizeViaAPI'), pState);
 	}
+
+	// Load settings from the scratch state if they are there (so reports can pass them in)
+	const tmpViaAPISettings = (typeof(pState.Scratch.ViaAPIRequest) !== 'undefined') ? pState.Scratch.ViaAPIRequest : {};
+	const tmpRequest = Object.assign({}, pTaskData?.Request || {}, tmpViaAPISettings);
 
 	// Need to move away from libFS only ASAFP so this works with dropbag.
 	// Because these tools are external, they likely need to happen locally in scratch then upload the files that are generated.
@@ -43,30 +45,26 @@ module.exports = (pTaskData, pState, fCallback) =>
 	tmpOutputStream.on('error',
 		(pError) =>
 		{
-			pState.Behaviors.stateLog(pState, 'Error writing pdf from ViaAPI: ' + JSON.stringify(pTaskData) + ' ' + pError, pError);
+			pState.Behaviors.stateLog(pState, 'Error writing pdf from ViaAPI: ' + JSON.stringify(tmpRequest) + ' ' + pError, pError);
 		}
 	);
 
-	// Load settings from the scratch state if they are there (so reports can pass them in)
-	const tmpViaAPISettings = (typeof(pState.Scratch.ViaAPIRequest) !== 'undefined') ? pState.Scratch.ViaAPIRequest : {};
-
-	const request = Object.assign({}, pTaskData?.Request || {}, tmpViaAPISettings);
 	try
 	{
-		pState.Behaviors.stateLog(pState, `Generating pdf from ViaAPI using URL ${url}` + JSON.stringify(tmpViaAPISettings));
-		makeRequestWithRetry(request,
+		pState.Behaviors.stateLog(pState, `Generating pdf from ViaAPI` + JSON.stringify(tmpRequest));
+		makeRequestWithRetry(tmpRequest,
 			(pRequestError, pResponse) =>
 			{
 				if(pRequestError)
 				{
 					tmpOutputStream.close();
-					pState.Behaviors.stateLog(pState, 'Error generating pdf with ViaAPI: ' + JSON.stringify(pTaskData) + ' ' + pRequestError, pRequestError);
+					pState.Behaviors.stateLog(pState, 'Error generating pdf with ViaAPI: ' + JSON.stringify(tmpRequest) + ' ' + pRequestError, pRequestError);
 					return fCallback(pRequestError, pState);
 				}
 				pResponse.on('error',
 					(pError) =>
 					{
-						pState.Behaviors.stateLog(pState, 'Error generating pdf with ViaAPI: ' + JSON.stringify(pTaskData) + ' ' + (pError.message || pError), pError);
+						pState.Behaviors.stateLog(pState, 'Error generating pdf with ViaAPI: ' + JSON.stringify(tmpRequest) + ' ' + (pError.message || pError), pError);
 					}
 				);
 				pResponse.pipe(tmpOutputStream);
