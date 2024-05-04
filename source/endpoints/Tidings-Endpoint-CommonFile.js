@@ -126,11 +126,19 @@ module.exports = (pRequest, pResponse, fNext) =>
 		return pRequest.Tidings.commonservices.sendCodedError('Error retrieving report common File: invalid Report Type', {}, pRequest, pResponse, fNext);
 	}
 
-	const tmpFileName = pRequest.params.FileName;
+	let tmpFileName = pRequest.params.FileName;
 	if ((typeof(tmpFileName) !== 'string') || (tmpFileName.length < 1))
 	{
-		// Invalid UUID
-		return pRequest.Tidings.commonservices.sendCodedError('Error retrieving report common File: invalid File Name', {}, pRequest, pResponse, fNext);
+		const partToFind = '/'+tmpReportType+'/';
+		const ix = pRequest.url.indexOf(partToFind);
+		if(ix === -1)
+		{
+			return pRequest.Tidings.commonservices.sendCodedError('Error retrieving report common File: invalid File Name', {}, pRequest, pResponse, fNext);
+		}
+
+		// Get the file name from the URL
+
+		tmpFileName = pRequest.url.substring(ix + partToFind.length);
 	}
 
 	pRequest.Tidings.commonservices.log.info('Delivering the common file ' + tmpFileName + ' for ' + tmpReportType);
