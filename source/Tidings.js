@@ -197,7 +197,7 @@ const Tidings = function()
 			pRestServer.get(tmpReportRoot + '/:UUID/Assets/:FileName', wireTidings, _Endpoints.ReportAssetFile);
 			pRestServer.get(tmpReportRoot + '/:UUID/:FileName', wireTidings, _Endpoints.ReportFile);
 			pRestServer.get(tmpReportRoot + '/Run/:ReportType/:FileName', wireTidings, _Endpoints.ReportCommonFile);
-			pRestServer.get(tmpReportRoot + '/:UUID/:ReportType/:FileName', wireTidings, _Endpoints.ReportCommonFile);
+			pRestServer.get(tmpReportRoot + '/:UUID/:ReportType/.*', wireTidings, _Endpoints.ReportCommonFile);
 			// This is too inclusive
 			const tmpGlobalRegexp = /\/.*/;
 			pRestServer.get(tmpGlobalRegexp, wireTidings, _Endpoints.ReportCommonFile);
