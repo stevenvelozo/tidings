@@ -137,8 +137,13 @@ module.exports = (pRequest, pResponse, fNext) =>
 		}
 
 		// Get the file name from the URL
-
 		tmpFileName = pRequest.url.substring(ix + partToFind.length);
+
+		// trim off the query param if it exists. It is not part of the file path
+		if(tmpFileName.indexOf('?') !== -1)
+		{
+			tmpFileName = tmpFileName.substring(0, tmpFileName.indexOf('?'));
+		}
 	}
 
 	pRequest.Tidings.commonservices.log.info('Delivering the common file ' + tmpFileName + ' for ' + tmpReportType);
