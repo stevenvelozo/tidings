@@ -73,6 +73,7 @@ module.exports = (pTaskData, pState, fCallback) =>
 					return fCallback(null, pState);
 				}
 
+				pState.Behaviors.stateLog(pState, 'Successfully executed auto rasterizer [' + pTaskData.Rasterizer + ']');
 				return fCallback(null, pState);
 			});
 	}

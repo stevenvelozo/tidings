@@ -8,16 +8,27 @@ var parseNeverWorkInTheory = (pState, fCallback) =>
 		{
 			// Stuff the callback in a variable
 			var tmpCallback = fCallback;
-	
+
 			// Now parse the html asset with Cheerio
 			var tmpDom = pState.Tidings.libraries.Cheerio.load(pData);
-	
+
 			// Get all the links (jquery style)
 			var tmpLinks = tmpDom('a');
-			
+
 			// Create a JSON file in the scratch area for the report to use.
 			var tmpLinkList = [];
-	
+
+			let viaApiUrl = 'http://localhost:9042/1.0/viaapi';
+			let reportsServerUrl = 'http://localhost:9042';
+			// This below ends up being part of the wkhtmltopdf command-line arguments, so you can pass in any valid wkhtmltopdf argument pair.
+			pState.Scratch.ViaAPIRequest = ({
+				url: `${viaApiUrl}?SessionToken=${pState.Datum.SessionToken || ''}`,
+				method: 'POST',
+				json:
+				{
+					URL: `${reportsServerUrl}/1.0/Report/${pState.Manifest.Metadata.GUIDReportDescription}/index.html?SessionToken=${pState.Datum.SessionToken || ''}`,
+				},
+			});
 			pState.Libraries.Async.eachSeries(tmpLinks,
 				(pLink, fStageComplete)=>
 				{
@@ -50,10 +61,10 @@ var parseZipCodes = (pState, fCallback) =>
 		function(pError, pData)
 		{
 			var tmpLocations = [];
-			
+
 			// Parse the data we downloaded
 			var tmpZipCodes = JSON.parse(pData);
-			
+
 			if ((typeof(tmpZipCodes) !== 'object') || !tmpZipCodes.hasOwnProperty('postalcodes') || tmpZipCodes.postalcodes.length < 1)
 			{
 				pState.Scratch.Locations = tmpLocations;
@@ -106,7 +117,7 @@ module.exports = (
 	calculate: (pState, fCallback) =>
 	{
 		// This should be an async.waterfall but meh
-		parseNeverWorkInTheory(pState, 
+		parseNeverWorkInTheory(pState,
 			(pError, pState) =>
 			{
 				parseZipCodes(pState, fCallback);
@@ -119,7 +130,7 @@ module.exports = (
 		fCallback(false, pState);
 	},
 
-	
+
 	postRender: (pState, fCallback) =>
 	{
 		// Call this to delete assets after render.

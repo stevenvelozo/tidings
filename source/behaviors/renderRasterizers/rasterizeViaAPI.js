@@ -9,10 +9,11 @@ and/or use the property ViaAPIRequest on Scratch to define the request. See the 
  */
 const libFS = require('fs');
 const libRequest = require('request');
+const libUnderscore = require('underscore');
 
 module.exports = (pTaskData, pState, fCallback) =>
 {
-
+	const tmpCallback = libUnderscore.once(fCallback);
 	if (!pTaskData.Path)
 	{
 		pTaskData.Path = pState.Manifest.Metadata.Locations.Stage;
@@ -25,7 +26,8 @@ module.exports = (pTaskData, pState, fCallback) =>
 
 	if (!pTaskData.Output)
 	{
-		fCallback(new Error('Output file name not provided for rasterizeViaAPI'), pState);
+		tmpCallback(new Error('Output file name not provided for rasterizeViaAPI'), pState);
+		return;
 	}
 
 	// Load settings from the scratch state if they are there (so reports can pass them in)
@@ -35,11 +37,11 @@ module.exports = (pTaskData, pState, fCallback) =>
 	// Need to move away from libFS only ASAFP so this works with dropbag.
 	// Because these tools are external, they likely need to happen locally in scratch then upload the files that are generated.
 	// Talk to Jason about how best to manage this and for now only support FS.
-	const tmpOutputStream = libFS.createWriteStream(pTaskData.OutputPath  + pTaskData.Output);
+	const tmpOutputStream = libFS.createWriteStream(pTaskData.OutputPath + pTaskData.Output);
 	tmpOutputStream.on('finish',
 		() =>
 		{
-			fCallback(null, pState);
+			tmpCallback(null, pState);
 		}
 	);
 	tmpOutputStream.on('error',
@@ -52,13 +54,17 @@ module.exports = (pTaskData, pState, fCallback) =>
 	try
 	{
 		pState.Behaviors.stateLog(pState, `Generating pdf from ViaAPI` + JSON.stringify(tmpRequest));
-		makeRequestWithRetry(tmpRequest,
+		makeRequestWithRetry(pState, tmpRequest,
 			(pRequestError, pResponse) =>
 			{
-				if(pRequestError)
+				if(pRequestError || pResponse.statusCode >= 400)
 				{
+					const tmpFailure = pRequestError || new Error(`Rasterize via API response response status code ${pResponse.statusCode}`);
+					pState.Behaviors.stateLog(pState, 'Error generating pdf with ViaAPI: ' + JSON.stringify(tmpRequest) + ' ' + tmpFailure, tmpFailure);
+					tmpCallback(tmpFailure, pState);
 					tmpOutputStream.close();
-					pState.Behaviors.stateLog(pState, 'Error generating pdf with ViaAPI: ' + JSON.stringify(tmpRequest) + ' ' + pRequestError, pRequestError);
+					//FIXME: does this need to clean up the file?
+					return;
 				}
 				else
 				{
@@ -74,44 +80,48 @@ module.exports = (pTaskData, pState, fCallback) =>
 	}
 	catch (pError)
 	{
-		fCallback(new Error(`Problem rasterizing using the ViaAPI library: ${pError.message}`), pState);
+		tmpCallback(new Error(`Problem rasterizing using the ViaAPI library: ${pError.message}`), pState);
 	}
 };
 
 
-function makeRequestWithRetry(pOptions, fCallback)
+function makeRequestWithRetry(pState, pOptions, fCallback)
 {
-	var maxRetries = pOptions.maxRetries || 3;
+	const tmpCallback = libUnderscore.once(fCallback);
+	const maxRetries = pOptions.maxRetries || 3;
 	pOptions._retryCount = pOptions._retryCount || 0;
 	libRequest(pOptions)
 		.on('error', (error) =>
 		{
-			fCallback(error, null);
+			tmpCallback(error, null);
 		})
 		.on('response', (response) =>
 		{
-			if (response.statusCode === 429)
+			//NOTE: this HTTP library doesn't send an error event for 4xx and 5xx status codes
+			if (response.statusCode === 429 || response.statusCode >= 500)
 			{
+				const rateLimited = response.statusCode === 429;
 				pOptions._retryCount++;
 
 				if(pOptions._retryCount > maxRetries)
 				{
-					return fCallback(null, response, output);
+					// propagate the (error) result of the last request
+					return tmpCallback(null, response);
 				}
 
 				// use our header or do a retry after exp backoff or from our header depending on who tells us to wait
 				let timeoutTime = response.headers['retry-after'] ||
 					Math.min(5, pOptions._retryCount * pOptions._retryCount);
 
-				console.log('Rate limited, retrying after ' + timeoutTime + ' seconds');
+				pState.Behaviors.stateLog(pState, (rateLimited ? 'Rate limited' : 'Server error') + ', retrying after ' + timeoutTime + ' seconds');
 				setTimeout(() =>
 				{
-					makeRequestWithRetry(pOptions, fCallback);
+					makeRequestWithRetry(pState, pOptions, tmpCallback);
 				}, timeoutTime * 1000);
 			}
 			else
 			{
-				return fCallback(null, response, null);
+				return tmpCallback(null, response);
 			}
 		})
 }
