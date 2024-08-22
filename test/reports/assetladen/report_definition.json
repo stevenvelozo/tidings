@@ -98,6 +98,22 @@
 						"Output": "index.png"
 					}
 				]
+		},
+		"pdfapi":
+		{
+			"Templates":
+			[
+				{ "Renderer":"html" }
+			],
+			"DefaultFile": "index.pdf",
+			"Rasterization":
+			[
+				{
+					"Rasterizer": "ViaAPI",
+					"File": "index.html",
+					"Output": "index.pdf"
+				}
+			]
 		}
 	}
 }
