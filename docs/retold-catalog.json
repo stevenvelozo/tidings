@@ -1,0 +1,230 @@
+{
+	"Generated": "2026-02-18T03:45:44.465Z",
+	"GitHubOrg": "stevenvelozo",
+	"DefaultBranch": "master",
+	"Groups": [
+		{
+			"Name": ".config",
+			"Key": ".config",
+			"Description": "",
+			"Modules": [
+				{
+					"Name": "code-server",
+					"Repo": "code-server",
+					"Group": ".config",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
+					"Name": "configstore",
+					"Repo": "configstore",
+					"Group": ".config",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				}
+			]
+		},
+		{
+			"Name": "Dist",
+			"Key": "dist",
+			"Description": "",
+			"Modules": [
+				{
+					"Name": "indoctrinate_content_staging",
+					"Repo": "indoctrinate_content_staging",
+					"Group": "dist",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				}
+			]
+		},
+		{
+			"Name": "Examples",
+			"Key": "examples",
+			"Description": "",
+			"Modules": [
+				{
+					"Name": "climate",
+					"Repo": "climate",
+					"Group": "examples",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				}
+			]
+		},
+		{
+			"Name": "Global",
+			"Key": "global",
+			"Description": "",
+			"Modules": [
+				{
+					"Name": "folder",
+					"Repo": "folder",
+					"Group": "global",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				}
+			]
+		},
+		{
+			"Name": "Reports",
+			"Key": "reports",
+			"Description": "",
+			"Modules": [
+				{
+					"Name": "default",
+					"Repo": "default",
+					"Group": "reports",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				}
+			]
+		},
+		{
+			"Name": "Source",
+			"Key": "source",
+			"Description": "",
+			"Modules": [
+				{
+					"Name": "behaviors",
+					"Repo": "behaviors",
+					"Group": "source",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
+					"Name": "endpoints",
+					"Repo": "endpoints",
+					"Group": "source",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				}
+			]
+		},
+		{
+			"Name": "Stage",
+			"Key": "stage",
+			"Description": "",
+			"Modules": [
+				{
+					"Name": "09f455de-324a-4665-a595-51d93f9d33eb",
+					"Repo": "09f455de-324a-4665-a595-51d93f9d33eb",
+					"Group": "stage",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
+					"Name": "0e695f9b-3241-4a58-bc5d-ca86a9f3e535",
+					"Repo": "0e695f9b-3241-4a58-bc5d-ca86a9f3e535",
+					"Group": "stage",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
+					"Name": "bf6284f5-2f98-49b8-825f-32fcbdc463db",
+					"Repo": "bf6284f5-2f98-49b8-825f-32fcbdc463db",
+					"Group": "stage",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
+					"Name": "c31f4672-f18a-498c-8e47-6680045c6657",
+					"Repo": "c31f4672-f18a-498c-8e47-6680045c6657",
+					"Group": "stage",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
+					"Name": "ec89184b-a3a5-415c-9976-4ff46d715a88",
+					"Repo": "ec89184b-a3a5-415c-9976-4ff46d715a88",
+					"Group": "stage",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				}
+			]
+		},
+		{
+			"Name": "Test",
+			"Key": "test",
+			"Description": "",
+			"Modules": [
+				{
+					"Name": "paw",
+					"Repo": "paw",
+					"Group": "test",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
+					"Name": "reports",
+					"Repo": "reports",
+					"Group": "test",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				}
+			]
+		},
+		{
+			"Name": "Tidings-report-prototype",
+			"Key": "tidings-report-prototype",
+			"Description": "",
+			"Modules": [
+				{
+					"Name": "source",
+					"Repo": "source",
+					"Group": "tidings-report-prototype",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				}
+			]
+		}
+	]
+}

@@ -695,3 +695,16 @@ postRender: (pState, fCallback) =>
 # Other Resources to look into:
 
 Muze allows interactive data dashboards: https://www.charts.com/muze
+
+## Related Packages
+
+- [orator](https://github.com/stevenvelozo/orator) - API server abstraction
+- [fable](https://github.com/stevenvelozo/fable) - Application services framework
+
+## License
+
+MIT
+
+## Contributing
+
+Pull requests are welcome. For details on our code of conduct, contribution process, and testing requirements, see the [Retold Contributing Guide](https://github.com/stevenvelozo/retold/blob/main/docs/contributing.md).
