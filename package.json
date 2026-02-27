@@ -6,7 +6,7 @@
     "scripts": {
         "start": "node source/Tidings.js",
         "coverage": "npx quack coverage",
-        "test": "npx mocha -u tdd --exit -R spec",
+        "test": "npx quack test",
         "build": "npx quack build",
         "docker-dev-build": "docker build ./ -f Dockerfile_LUXURYCode -t tidings-image:local",
         "docker-dev-run": "docker run -it -d --name tidings-dev -p 9999:8080 -p 8000:8000 -v \"$PWD/.config:/home/coder/.config\"  -v \"$PWD:/home/coder/tidings\" -u \"$(id -u):$(id -g)\" -e \"DOCKER_USER=$USER\" tidings-image:local",
