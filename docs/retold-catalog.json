@@ -1,5 +1,5 @@
 {
-	"Generated": "2026-02-18T03:45:44.465Z",
+	"Generated": "2026-04-09T23:23:52.020Z",
 	"GitHubOrg": "stevenvelozo",
 	"DefaultBranch": "master",
 	"Groups": [
@@ -44,6 +44,25 @@
 					"HasCover": false,
 					"Sidebar": [],
 					"DocFiles": []
+				}
+			]
+		},
+		{
+			"Name": "Docs",
+			"Key": "docs",
+			"Description": "",
+			"Modules": [
+				{
+					"Name": "css",
+					"Repo": "css",
+					"Group": "docs",
+					"Branch": "master",
+					"HasDocs": true,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": [
+						"css/docuserve.css"
+					]
 				}
 			]
 		},
@@ -117,63 +136,6 @@
 					"Name": "endpoints",
 					"Repo": "endpoints",
 					"Group": "source",
-					"Branch": "master",
-					"HasDocs": false,
-					"HasCover": false,
-					"Sidebar": [],
-					"DocFiles": []
-				}
-			]
-		},
-		{
-			"Name": "Stage",
-			"Key": "stage",
-			"Description": "",
-			"Modules": [
-				{
-					"Name": "09f455de-324a-4665-a595-51d93f9d33eb",
-					"Repo": "09f455de-324a-4665-a595-51d93f9d33eb",
-					"Group": "stage",
-					"Branch": "master",
-					"HasDocs": false,
-					"HasCover": false,
-					"Sidebar": [],
-					"DocFiles": []
-				},
-				{
-					"Name": "0e695f9b-3241-4a58-bc5d-ca86a9f3e535",
-					"Repo": "0e695f9b-3241-4a58-bc5d-ca86a9f3e535",
-					"Group": "stage",
-					"Branch": "master",
-					"HasDocs": false,
-					"HasCover": false,
-					"Sidebar": [],
-					"DocFiles": []
-				},
-				{
-					"Name": "bf6284f5-2f98-49b8-825f-32fcbdc463db",
-					"Repo": "bf6284f5-2f98-49b8-825f-32fcbdc463db",
-					"Group": "stage",
-					"Branch": "master",
-					"HasDocs": false,
-					"HasCover": false,
-					"Sidebar": [],
-					"DocFiles": []
-				},
-				{
-					"Name": "c31f4672-f18a-498c-8e47-6680045c6657",
-					"Repo": "c31f4672-f18a-498c-8e47-6680045c6657",
-					"Group": "stage",
-					"Branch": "master",
-					"HasDocs": false,
-					"HasCover": false,
-					"Sidebar": [],
-					"DocFiles": []
-				},
-				{
-					"Name": "ec89184b-a3a5-415c-9976-4ff46d715a88",
-					"Repo": "ec89184b-a3a5-415c-9976-4ff46d715a88",
-					"Group": "stage",
 					"Branch": "master",
 					"HasDocs": false,
 					"HasCover": false,
