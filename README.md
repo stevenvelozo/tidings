@@ -13,7 +13,7 @@ This was built after looking at what was available on the free and paid market t
 5. There should be thumbnails to show previews on my web app
 6. I want to be able to add reports without changing any application code
 
-It turns out that just doing these things with most off-the-shelf reporting tools is challenging to nigh impossible.  Further, they really don’t mesh well with micro-service architecture.
+It turns out that just doing these things with most off-the-shelf reporting tools is challenging to nigh impossible.  Further, they really don't mesh well with micro-service architecture.
 
 We also wanted to optimize the ratio of *configuration* versus *code*.  Less code is less debt!
 
@@ -62,7 +62,7 @@ mkdir myreports/default
 
 Later we will dive into what *Type* and *Renderer* mean.  For now we can just say that tidings has a bunch of defaults, and the default *Report Type* is `default` and the default *Report Renderer* is `html`.
 
-For a report to work it needs at least three files — we can create those now.
+For a report to work it needs at least three files -- we can create those now.
 
 First the *Report Definition*.  A `json` file which goes in `myreports/default/report_definition.json`.  We can create that by doing the following:
 ```
@@ -81,7 +81,7 @@ Then putting the following content in:
 }
 ```
 
-The only thing we care about here is that we’ve told it the *Report Type* Hash is `html`.
+The only thing we care about here is that we've told it the *Report Type* Hash is `html`.
 
 Next we are going to create the *Report Script* file, where we can override behaviors in various phases of generating a report:
 ```
@@ -93,7 +93,7 @@ Then putting the following content in:
 module.exports = {};
 ```
 
-There aren’t any customizations done to code yet, so we aren’t going to worry about putting anything in there.
+There aren't any customizations done to code yet, so we aren't going to worry about putting anything in there.
 
 Lastly we need some template content for the engine to do something with.  Content is associated with the *Report Renderer*.  This means we need to create the folder:
 ```
@@ -152,7 +152,7 @@ Report rendered to: /home/ubuntu/workspace/stage//0x560eb56067000000
 stevenvelozo:~/workspace $
 ```
 
-If all went to plan, you should have a folder with the report data fully staged in `/home/ubuntu/workspace/stage/0x560eb56067000000` (really some similar folder .. we logged it out to the console when rendering was done).  The staged folder includes a copy of the final manifest, and a “Stage” location where you can find the index.html.
+If all went to plan, you should have a folder with the report data fully staged in `/home/ubuntu/workspace/stage/0x560eb56067000000` (really some similar folder .. we logged it out to the console when rendering was done).  The staged folder includes a copy of the final manifest, and a "Stage" location where you can find the index.html.
 
 The resulting folder tree should look something like this (including the run report):
 

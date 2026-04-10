@@ -2,7 +2,7 @@
 
 > Extensible micro-service reporting engine
 
-Turn application data into rendered reports with zero application code changes. Define report types as folders of templates and scripts, pass your data in, and Tidings handles the full render pipeline — from asset collection through template processing to PDF rasterization.
+Turn application data into rendered reports with zero application code changes. Define report types as folders of templates and scripts, pass your data in, and Tidings handles the full render pipeline -- from asset collection through template processing to PDF rasterization.
 
 - **Config-Driven** -- Add reports without changing application code; just create a folder with a definition, script, and templates
 - **Multi-Phase Pipeline** -- Validate, collect assets, calculate, template, rasterize, and clean up in a single render call

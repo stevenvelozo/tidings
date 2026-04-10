@@ -1,6 +1,6 @@
 # Tidings
 
-An extensible micro-service reporting engine built on Fable. Pass in your application data, point Tidings at a folder of report definitions, and get back rendered HTML, PDFs, graphs, or any output format you need. Reports are added by creating folders — no application code changes required.
+An extensible micro-service reporting engine built on Fable. Pass in your application data, point Tidings at a folder of report definitions, and get back rendered HTML, PDFs, graphs, or any output format you need. Reports are added by creating folders -- no application code changes required.
 
 ## Quick Start
 
@@ -118,7 +118,7 @@ const libFable = require('fable').new(
 |------|-------------|
 | **Datum** | The data object you pass to `render()`. Your application data plus an optional `TidingsData` metadata block. |
 | **Report Type** | A business context like "ExpenseTally" or "EquipmentReceived". Maps to a folder name in the report definitions directory. |
-| **Renderer** | The output format — `html`, `pdf`, `xls`, or any custom string. Each renderer has its own subfolder of templates. |
+| **Renderer** | The output format -- `html`, `pdf`, `xls`, or any custom string. Each renderer has its own subfolder of templates. |
 | **Report Definition** | The `report_definition.json` file describing templates, assets, and rasterization steps. |
 | **Report Script** | The `report.js` file with lifecycle hooks (`preCollect`, `calculate`, `rasterize`, `postRender`). |
 | **Manifest** | A JSON file tracking every step of a render: status, progress, timing, errors, and logs. |

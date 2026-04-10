@@ -139,8 +139,8 @@ Rendered output is written to the Stage folder.
 
 Two things happen in order:
 
-1. **Auto-rasterize** — Any entries in the `Rasterization` array from the report definition are executed using the specified rasterizer plugin.
-2. **Custom rasterize** — Your `report.js` `rasterize()` function runs for any additional rasterization logic.
+1. **Auto-rasterize** -- Any entries in the `Rasterization` array from the report definition are executed using the specified rasterizer plugin.
+2. **Custom rasterize** -- Your `report.js` `rasterize()` function runs for any additional rasterization logic.
 
 ### 14. Post-Render Hook
 

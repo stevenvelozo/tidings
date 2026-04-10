@@ -1,6 +1,6 @@
 # Rasterizers
 
-Rasterizers convert rendered report output into other formats — HTML to PDF, DOT to SVG, TeX to PDF, and more. They run after template processing as part of the render pipeline.
+Rasterizers convert rendered report output into other formats -- HTML to PDF, DOT to SVG, TeX to PDF, and more. They run after template processing as part of the render pipeline.
 
 ## Configuring Rasterization
 
@@ -51,7 +51,7 @@ npm install wkhtmltopdf-selfcontained
 ```
 
 **Notes:**
-- Self-contained Node module — no OS-level installation needed
+- Self-contained Node module -- no OS-level installation needed
 - Docker containers may need the locale set: `LC_ALL=C`
 - Renders CSS, JavaScript, and web fonts
 
@@ -205,5 +205,5 @@ module.exports =
 
 ## Rasterization Order
 
-1. **Auto-rasterize** — All entries from the `Rasterization` array in the report definition run first, in order.
-2. **Custom rasterize** — The `rasterize()` function from `report.js` runs after, allowing additional or conditional rasterization.
+1. **Auto-rasterize** -- All entries from the `Rasterization` array in the report definition run first, in order.
+2. **Custom rasterize** -- The `rasterize()` function from `report.js` runs after, allowing additional or conditional rasterization.

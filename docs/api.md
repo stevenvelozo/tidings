@@ -9,7 +9,7 @@ const libFable = require('fable').new({ Tidings: { ... } });
 const libTidings = require('tidings').new(libFable);
 ```
 
-You can also pass an Orator instance — Tidings extracts the Fable reference automatically.
+You can also pass an Orator instance -- Tidings extracts the Fable reference automatically.
 
 ---
 
@@ -24,7 +24,7 @@ Render a report asynchronously. Returns the report GUID immediately; the callbac
 | `pDatum` | object | Your application data. May include a `TidingsData` block for metadata. |
 | `fCallback` | function | `(pError)` called when rendering finishes |
 
-**Returns:** `string` — The `GUIDReportDescription` assigned to this render.
+**Returns:** `string` -- The `GUIDReportDescription` assigned to this render.
 
 ```javascript
 let tmpGUID = libTidings.render(
@@ -96,7 +96,7 @@ Create a manifest object from a datum without starting a render. Useful for insp
 |-----------|------|-------------|
 | `pDatum` | object | The datum to build a manifest from |
 
-**Returns:** `object` — A populated manifest object.
+**Returns:** `object` -- A populated manifest object.
 
 ---
 
@@ -134,7 +134,7 @@ Add a static file route for the report definition folder. Serves definition file
 
 Lazily create and return an Orator web server instance using the current Fable settings.
 
-**Returns:** `object` — An Orator instance.
+**Returns:** `object` -- An Orator instance.
 
 ---
 
@@ -190,8 +190,8 @@ All routes are prefixed with the `TidingsReportRoot` setting (default: `/1.0/Rep
 
 | Method | Route | Description |
 |--------|-------|-------------|
-| POST | `/1.0/Report` | Async render — returns GUID immediately |
-| POST | `/1.0/ReportSync` | Sync render — waits for completion, returns the rendered file |
+| POST | `/1.0/Report` | Async render -- returns GUID immediately |
+| POST | `/1.0/ReportSync` | Sync render -- waits for completion, returns the rendered file |
 | POST | `/1.0/Report/Run/Wait` | Sync render with full report wait |
 
 **Request body** for all render endpoints: your datum object as JSON.
