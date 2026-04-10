@@ -176,6 +176,53 @@ const Tidings = function()
 			ReportManifest: require('./endpoints/Tidings-Endpoint-Manifest.js')
 		});
 
+		const tmpReportRoot = (typeof(_Fable.settings.TidingsReportRoot) === 'string') ? _Fable.settings.TidingsReportRoot : '/1.0/Report';
+		const tmpOutputRoot = (typeof(_Fable.settings.TidingsReportRoot) === 'string') ? _Fable.settings.TidingsReportRoot + 'Output' : '/1.0/ReportOutput';
+		const tmpDefinitionRoot = (typeof(_Fable.settings.TidingsReportRoot) === 'string') ? _Fable.settings.TidingsReportRoot + 'Definition' : '/1.0/ReportDefinition';
+
+		/**
+		 * Route definitions that tidings will register. Consumers can modify
+		 * the route patterns before calling connectRoutes / connectOutputRoutes /
+		 * connectDefinitionRoutes to adapt to their router (e.g. replacing
+		 * regex patterns with string wildcards for restify 11).
+		 *
+		 * @property routes
+		 * @type object
+		 */
+		tmpNewTidingsObject.routes = (
+		{
+			// API routes registered by connectRoutes
+			api:
+			[
+				{ method: 'post', route: tmpReportRoot, handler: _Endpoints.ReportRender },
+				{ method: 'post', route: tmpReportRoot + 'Sync', handler: _Endpoints.ReportRenderSync },
+				{ method: 'post', route: tmpReportRoot + '/Run/Wait', handler: _Endpoints.ReportRun },
+				{ method: 'get', route: tmpReportRoot + '/Manifest/:UUID', handler: _Endpoints.ReportManifest },
+				{ method: 'get', route: tmpReportRoot + '/Datum/:UUID', handler: _Endpoints.ReportData },
+				{ method: 'get', route: tmpReportRoot + '/:UUID/Default', handler: _Endpoints.ReportDefaultFile },
+				{ method: 'get', route: tmpReportRoot + '/:UUID/Assets/:FileName', handler: _Endpoints.ReportAssetFile },
+				{ method: 'get', route: tmpReportRoot + '/:UUID/:FileName', handler: _Endpoints.ReportFile },
+				{ method: 'get', route: tmpReportRoot + '/Run/:ReportType/:FileName', handler: _Endpoints.ReportCommonFile },
+				{ method: 'get', route: tmpReportRoot + '/:UUID/:ReportType/.*', handler: _Endpoints.ReportCommonFile },
+				{ method: 'get', route: /\/.*/, handler: _Endpoints.ReportCommonFile },
+			],
+			// Static routes registered by connectOutputRoutes / connectDefinitionRoutes
+			output:
+			{
+				folder: _Fable.settings.Tidings.ReportOutputFolder,
+				defaultFile: 'index.html',
+				route: new RegExp(tmpOutputRoot + '/.*'),
+				routeStrip: tmpOutputRoot,
+			},
+			definition:
+			{
+				folder: _Fable.settings.Tidings.ReportDefinitionFolder,
+				defaultFile: 'report_definition.json',
+				route: new RegExp(tmpDefinitionRoot + '/.*'),
+				routeStrip: tmpDefinitionRoot,
+			},
+		});
+
 		/**
 		* Wire up routes for the API
 		*
@@ -184,23 +231,19 @@ const Tidings = function()
 		*/
 		tmpNewTidingsObject.connectRoutes = (pRestServer) =>
 		{
-			const tmpReportRoot = (typeof(_Fable.settings.TidingsReportRoot) === 'string') ? _Fable.settings.TidingsReportRoot : '/1.0/Report';
-
 			_Fable.log.trace('Creating report endpoints', {Root:tmpReportRoot});
 
-			pRestServer.post(tmpReportRoot, wireTidings, _Endpoints.ReportRender);
-			pRestServer.post(tmpReportRoot + 'Sync', wireTidings, _Endpoints.ReportRenderSync);
-			pRestServer.post(tmpReportRoot + '/Run/Wait', wireTidings, _Endpoints.ReportRun);
-			pRestServer.get(tmpReportRoot + '/Manifest/:UUID', wireTidings, _Endpoints.ReportManifest);
-			pRestServer.get(tmpReportRoot + '/Datum/:UUID', wireTidings, _Endpoints.ReportData);
-			pRestServer.get(tmpReportRoot + '/:UUID/Default', wireTidings, _Endpoints.ReportDefaultFile);
-			pRestServer.get(tmpReportRoot + '/:UUID/Assets/:FileName', wireTidings, _Endpoints.ReportAssetFile);
-			pRestServer.get(tmpReportRoot + '/:UUID/:FileName', wireTidings, _Endpoints.ReportFile);
-			pRestServer.get(tmpReportRoot + '/Run/:ReportType/:FileName', wireTidings, _Endpoints.ReportCommonFile);
-			pRestServer.get(tmpReportRoot + '/:UUID/:ReportType/.*', wireTidings, _Endpoints.ReportCommonFile);
-			// This is too inclusive
-			const tmpGlobalRegexp = /\/.*/;
-			pRestServer.get(tmpGlobalRegexp, wireTidings, _Endpoints.ReportCommonFile);
+			for (const tmpRouteDefinition of tmpNewTidingsObject.routes.api)
+			{
+				try
+				{
+					pRestServer[tmpRouteDefinition.method](tmpRouteDefinition.route, wireTidings, tmpRouteDefinition.handler);
+				}
+				catch (pError)
+				{
+					_Fable.log.warn(`Tidings: could not register ${tmpRouteDefinition.method.toUpperCase()} route [${tmpRouteDefinition.route}]: ${pError.message}`);
+				}
+			}
 		};
 
 		let _Orator = false;
@@ -234,14 +277,14 @@ const Tidings = function()
 
 		tmpNewTidingsObject.connectOutputRoutes = (pOrator) =>
 		{
-			const tmpReportRoot = (typeof(_Fable.settings.TidingsReportRoot) === 'string') ? _Fable.settings.TidingsReportRoot + 'Output' : '/1.0/ReportOutput';
-			pOrator.addStaticRoute(_Fable.settings.Tidings.ReportOutputFolder, 'index.html', new RegExp(tmpReportRoot + '/.*'), tmpReportRoot);
+			const tmpDef = tmpNewTidingsObject.routes.output;
+			pOrator.addStaticRoute(tmpDef.folder, tmpDef.defaultFile, tmpDef.route, tmpDef.routeStrip);
 		};
 
 		tmpNewTidingsObject.connectDefinitionRoutes = (pOrator) =>
 		{
-			const tmpReportRoot = (typeof(_Fable.settings.TidingsReportRoot) === 'string') ? _Fable.settings.TidingsReportRoot + 'Definition' : '/1.0/ReportDefinition';
-			pOrator.addStaticRoute(_Fable.settings.Tidings.ReportDefinitionFolder, 'report_definition.json', new RegExp(tmpReportRoot + '/.*'), tmpReportRoot);
+			const tmpDef = tmpNewTidingsObject.routes.definition;
+			pOrator.addStaticRoute(tmpDef.folder, tmpDef.defaultFile, tmpDef.route, tmpDef.routeStrip);
 		};
 
 		/**

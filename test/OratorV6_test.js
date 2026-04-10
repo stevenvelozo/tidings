@@ -83,6 +83,22 @@ suite
 								// Create a tidings instance with fable 3 and inject the v6 orator
 								_Tidings = libTidings.new(_Fable3);
 								_Tidings.Orator(_OratorV6);
+
+								// Patch tidings route definitions for restify 11 compatibility.
+								// Restify 11 uses a radix tree router that does not support
+								// regex patterns. Replace them with string wildcards.
+								var tmpRoutes = _Tidings.routes;
+								tmpRoutes.output.route = tmpRoutes.output.routeStrip + '/*';
+								tmpRoutes.definition.route = tmpRoutes.definition.routeStrip + '/*';
+								for (var i = 0; i < tmpRoutes.api.length; i++)
+								{
+									if (tmpRoutes.api[i].route instanceof RegExp)
+									{
+										tmpRoutes.api.splice(i, 1);
+										i--;
+									}
+								}
+
 								_Tidings.connectRoutes(_OratorV6.webServer);
 								_Tidings.connectOutputRoutes(_OratorV6);
 								_Tidings.connectDefinitionRoutes(_OratorV6);
@@ -144,6 +160,73 @@ suite
 							Expect(pBody).to.be.a('string');
 							var tmpData = JSON.parse(pBody);
 							Expect(tmpData.Status.Rendered).to.equal(true);
+							fDone();
+						});
+					}
+				).timeout(10000);
+				test
+				(
+					'get report default file via HTTP through orator v6',
+					(fDone) =>
+					{
+						libRequest(
+							{
+								method: 'GET',
+								url: `http://localhost:${ORATOR_V6_PORT}/1.0/Report/${GLOBAL_REPORT_HASH}/Default`
+							},
+						(pError, pResponse, pBody) =>
+						{
+							Expect(pError).to.be.null;
+							Expect(pResponse.statusCode).to.equal(200);
+							Expect(pBody).to.be.a('string');
+							Expect(pBody.length).to.be.greaterThan(0);
+							fDone();
+						});
+					}
+				).timeout(10000);
+				test
+				(
+					'get report output via static route through orator v6',
+					(fDone) =>
+					{
+						// This exercises the connectOutputRoutes static route which
+						// previously used a regex pattern and failed silently on
+						// restify 11's radix tree router.
+						libRequest(
+							{
+								method: 'GET',
+								url: `http://localhost:${ORATOR_V6_PORT}/1.0/ReportOutput/${GLOBAL_REPORT_HASH}/Stage/index.html`
+							},
+						(pError, pResponse, pBody) =>
+						{
+							Expect(pError).to.be.null;
+							Expect(pResponse.statusCode).to.equal(200);
+							Expect(pBody).to.be.a('string');
+							Expect(pBody.length).to.be.greaterThan(0);
+							fDone();
+						});
+					}
+				).timeout(10000);
+				test
+				(
+					'get report definition via static route through orator v6',
+					(fDone) =>
+					{
+						// This exercises the connectDefinitionRoutes static route which
+						// previously used a regex pattern and failed silently on
+						// restify 11's radix tree router.
+						libRequest(
+							{
+								method: 'GET',
+								url: `http://localhost:${ORATOR_V6_PORT}/1.0/ReportDefinition/default/report_definition.json`
+							},
+						(pError, pResponse, pBody) =>
+						{
+							Expect(pError).to.be.null;
+							Expect(pResponse.statusCode).to.equal(200);
+							var tmpDefinition = JSON.parse(pBody);
+							Expect(tmpDefinition).to.be.an('object');
+							Expect(tmpDefinition).to.have.property('Hash');
 							fDone();
 						});
 					}
