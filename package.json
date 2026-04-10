@@ -27,7 +27,7 @@
     },
     "homepage": "https://github.com/stevenvelozo/tidings",
     "devDependencies": {
-        "quackage": "^1.0.59",
+        "quackage": "^1.1.0",
         "supertest": "1.1.0"
     },
     "dependencies": {
