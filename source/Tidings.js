@@ -204,14 +204,30 @@ const Tidings = function()
 		};
 
 		let _Orator = false;
-		tmpNewTidingsObject.Orator = () =>
+		/**
+		 * Get or set the Orator instance used by Tidings.
+		 *
+		 * When called with no arguments, returns the current Orator instance,
+		 * creating one from orator v2 if none has been injected.
+		 *
+		 * When called with an Orator instance, sets it as the active instance.
+		 * This allows consumers to inject their own Orator (e.g. v6) without
+		 * requiring Tidings to depend on a specific version.
+		 *
+		 * @method Orator
+		 * @param {object} [pOrator] An Orator instance to use instead of creating one internally
+		 * @returns {object} The active Orator instance
+		 */
+		tmpNewTidingsObject.Orator = (pOrator) =>
 		{
+			if (typeof(pOrator) === 'object' && pOrator)
+			{
+				_Orator = pOrator;
+			}
 			if (!_Orator)
 			{
 				_Orator = require('orator').new(_Fable.settings);
 			}
-			// TODO: Ask jason if he thinks the endpoints should be automagically mapped into this
-			// _Orator.connectRoutes(_Orator.webServer);
 			return _Orator;
 		};
 

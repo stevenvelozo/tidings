@@ -1,6 +1,6 @@
 {
     "name": "tidings",
-    "version": "1.0.35",
+    "version": "1.0.36",
     "description": "Reporting scaffolding and pattern.",
     "main": "source/Tidings.js",
     "scripts": {
@@ -27,6 +27,9 @@
     },
     "homepage": "https://github.com/stevenvelozo/tidings",
     "devDependencies": {
+        "fable3": "npm:fable@^3.1.68",
+        "orator6": "npm:orator@^6.0.4",
+        "orator-serviceserver-restify": "^2.0.10",
         "pict-docuserve": "^0.1.5",
         "quackage": "^1.1.0",
         "supertest": "1.1.0"

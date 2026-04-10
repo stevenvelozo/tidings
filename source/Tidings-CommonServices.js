@@ -28,7 +28,19 @@ module.exports = new function()
 		const _Fable = pFable;
 		const _Log = _Fable.log;
 
-		const libRestify = require('restify');
+		// Attempt to load restify for bodyParser and serveStatic pass-throughs.
+		// Restify may not be a direct dependency when consumers provide their
+		// own Orator instance (e.g. orator v6 with orator-serviceserver-restify),
+		// so we gracefully degrade if it is not available.
+		let libRestify = false;
+		try
+		{
+			libRestify = require('restify');
+		}
+		catch (pError)
+		{
+			_Log.warn('Tidings CommonServices: restify not found as a direct dependency.  bodyParser and serveStatic will not be available through commonservices.');
+		}
 
 		/**
 		 * Send an Error Code and Error Message to the client, and log it as an error in the log files.
@@ -108,8 +120,8 @@ module.exports = new function()
 			sendError: sendError,
 
 			// Restify body parser passed through, for any POST and PUT requests
-			bodyParser: libRestify.bodyParser,
-			serveStatic: libRestify.serveStatic,
+			bodyParser: libRestify ? libRestify.bodyParser : null,
+			serveStatic: libRestify ? libRestify.serveStatic : null,
 
 			new: createNew,
 		});
